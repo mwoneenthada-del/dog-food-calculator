@@ -1,0 +1,71 @@
+{
+  "adult_maintenance": {
+    "meta": {
+      "source": "FEDIAF Nutritional Guidelines for Complete and Complementary Pet Food",
+      "species": "dog",
+      "life_stage": "adult_maintenance",
+      "basis": "per_1000_kcal_ME",
+      "notes": "All nutrient recommendations are expressed per 1000 kcal metabolizable energy unless otherwise specified. Minimum values were taken from the FEDIAF adult maintenance column based on MER of 95 kcal/kg^0.75."
+    },
+
+    "protein_amino_acids": {
+    "protein": { "label": "Protein", "unit": "g", "minimum": 52.10, "maximum": null },
+    "arginine": { "label": "Arginine", "unit": "g", "minimum": 1.51, "maximum": null },
+    "histidine": { "label": "Histidine", "unit": "g", "minimum": 0.67, "maximum": null },
+    "isoleucine": { "label": "Isoleucine", "unit": "g", "minimum": 1.33, "maximum": null },
+    "leucine": { "label": "Leucine", "unit": "g", "minimum": 2.37, "maximum": null },
+    "lysine": { "label": "Lysine", "unit": "g", "minimum": 1.22, "maximum": null },
+    "methionine": { "label": "Methionine", "unit": "g", "minimum": 1.16, "maximum": null },
+    "methionine_cystine": { "label": "Methionine + Cystine", "unit": "g", "minimum": 2.21, "maximum": null },
+    "phenylalanine": { "label": "Phenylalanine", "unit": "g", "minimum": 1.56, "maximum": null },
+    "phenylalanine_tyrosine": { "label": "Phenylalanine + Tyrosine", "unit": "g", "minimum": 2.58, "maximum": null },
+    "threonine": { "label": "Threonine", "unit": "g", "minimum": 1.51, "maximum": null },
+    "tryptophan": { "label": "Tryptophan", "unit": "g", "minimum": 0.49, "maximum": null },
+    "valine": { "label": "Valine", "unit": "g", "minimum": 1.71, "maximum": null }
+    },
+
+    "fat_fatty_acids": {
+    "fat": { "label": "Fat", "unit": "g", "minimum": 13.75, "maximum": null },
+    "linoleic_acid": { "label": "Linoleic Acid (ω-6)", "unit": "g", "minimum": 3.82, "maximum": null },
+    "arachidonic_acid": { "label": "Arachidonic Acid (ω-6)", "unit": "mg", "minimum": null, "maximum": null },
+    "alpha_linolenic_acid": { "label": "Alpha-linolenic Acid (ω-3)", "unit": "g", "minimum": null, "maximum": null },
+    "epa_dha": { "label": "EPA + DHA (ω-3)", "unit": "g", "minimum": null, "maximum": null }
+    },
+
+    "minerals": {
+    "calcium": { "label": "Calcium", "unit": "g", "minimum": 1.45, "maximum": 6.25 },
+    "phosphorus": { "label": "Phosphorus", "unit": "g", "minimum": 1.16, "maximum": 4.00 },
+    "ca_p_ratio": { "label": "Calcium : Phosphorus Ratio", "unit": "ratio", "minimum": 1, "maximum": 2 },
+    "potassium": { "label": "Potassium", "unit": "g", "minimum": 1.45, "maximum": null },
+    "sodium": { "label": "Sodium", "unit": "g", "minimum": 0.29, "maximum": null },
+    "chloride": { "label": "Chloride", "unit": "g", "minimum": 0.43, "maximum": null },
+    "magnesium": { "label": "Magnesium", "unit": "g", "minimum": 0.20, "maximum": null }
+    },
+
+    "trace_elements": {
+    "copper": { "label": "Copper", "unit": "mg", "minimum": 2.08, "maximum": null },
+    "iodine": { "label": "Iodine", "unit": "mg", "minimum": 0.30, "maximum": null },
+    "iron": { "label": "Iron", "unit": "mg", "minimum": 10.40, "maximum": null },
+    "manganese": { "label": "Manganese", "unit": "mg", "minimum": 1.67, "maximum": null },
+    "selenium_wet": { "label": "Selenium", "unit": "µg", "minimum": 67.50, "maximum": null },
+    "zinc": { "label": "Zinc", "unit": "mg", "minimum": 20.80, "maximum": null }
+    },
+
+    "vitamins": {
+    "vitamin_a": { "label": "Vitamin A", "unit": "IU", "minimum": 1754, "maximum": 100000 },
+    "vitamin_d": { "label": "Vitamin D", "unit": "IU", "minimum": 159, "maximum": 800 },
+    "vitamin_e": { "label": "Vitamin E", "unit": "IU", "minimum": 10.40, "maximum": null },
+    "vitamin_b1": { "label": "Vitamin B1 (Thiamine)", "unit": "mg", "minimum": 0.62, "maximum": null },
+    "vitamin_b2": { "label": "Vitamin B2 (Riboflavin)", "unit": "mg", "minimum": 1.74, "maximum": null },
+    "vitamin_b5": { "label": "Vitamin B5 (Pantothenic Acid)", "unit": "mg", "minimum": 4.11, "maximum": null },
+    "vitamin_b6": { "label": "Vitamin B6 (Pyridoxine)", "unit": "mg", "minimum": 0.42, "maximum": null },
+    "vitamin_b12": { "label": "Vitamin B12 (Cyanocobalamin)", "unit": "µg", "minimum": 9.68, "maximum": null },
+    "vitamin_b3": { "label": "Vitamin B3 (Niacin)", "unit": "mg", "minimum": 4.74, "maximum": null },
+    "vitamin_b9": { "label": "Vitamin B9 (Folic Acid)", "unit": "µg", "minimum": 74.70, "maximum": null },
+    "vitamin_b7": { "label": "Vitamin B7 (Biotin)", "unit": "µg", "minimum": null, "maximum": null },
+    "choline": { "label": "Choline", "unit": "mg", "minimum": 474.00, "maximum": null },
+    "vitamin_k": { "label": "Vitamin K", "unit": "µg", "minimum": null, "maximum": null }
+    }
+  }
+}
+
