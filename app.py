@@ -365,7 +365,7 @@ with center:
                 st.write("-")
 
     #app title-----
-    st.title("Homemade Dog Food Nutrition Calculator")
+    st.title("Dog Food Nutrition Calculator")
 
     st.write(
     "**Note: This calculator is for educational purposes only and does not replace professional veterinary advice."
@@ -1345,3 +1345,5 @@ with center:
                 "Macronutrient ratios are not defined by FEDIAF guidelines, which instead specify nutrient requirements per 1000 kcal. "
                 "This chart is provided for informational purposes to help visualize the caloric contribution of protein, fat, and carbohydrates."
                 )
+
+    st.caption("Built by Jessie Allen • github.com/jallen244")
