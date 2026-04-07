@@ -3,6 +3,12 @@ import streamlit as st
 import pandas as pd
 from recommender import get_top_ingredient_suggestions
 from recommender import evaluate_recipe
+from custom_ingredients import (
+    get_supported_nutrients,
+    get_nutrient_labels,
+    get_supported_units_for_nutrient,
+    build_custom_ingredient,
+)
 
 st.set_page_config(page_title="Dog Food Calculator", layout="wide")
 
@@ -23,6 +29,38 @@ with center:
 
 
     #session state-----
+    if "custom_ingredients" not in st.session_state:
+        st.session_state.custom_ingredients = {}
+
+    if "custom_percent_rows" not in st.session_state:
+        all_nutrients = get_supported_nutrients(ingredients)
+
+        percent_nutrients = [
+            n for n in all_nutrients
+            if any(u in ["g", "mg", "mcg", "µg"]
+                for u in get_supported_units_for_nutrient(n, ingredients))
+        ]
+
+        first_nutrient = percent_nutrients[0]
+
+        st.session_state.custom_percent_rows = [
+            {"nutrient": first_nutrient, "percent": 0.0}
+        ]
+
+    if "custom_nutrient_rows" not in st.session_state:
+        first_nutrient = get_supported_nutrients(ingredients)[0]
+        allowed_units = get_supported_units_for_nutrient(first_nutrient, ingredients)
+
+        st.session_state.custom_nutrient_rows = [
+            {"nutrient": first_nutrient, "amount": 0.0, "unit": allowed_units[0]}
+        ]
+
+    # --- merged ingredient dictionary ---
+    all_ingredients = {**ingredients, **st.session_state.custom_ingredients}
+
+    if "show_custom_dialog" not in st.session_state:
+        st.session_state.show_custom_dialog = False
+
     if "recipe" not in st.session_state:
         st.session_state.recipe = []
 
@@ -33,22 +71,167 @@ with center:
         st.session_state.suggestions_generated = False
 
     #helper functions-----
-    def add_ingredient_to_recipe(ingredient_key, grams):
+    def recipe_has_nutrients_but_no_calories():
+        if not st.session_state.recipe:
+            return False
 
-        ingredient_name = ingredients[ingredient_key]["name"]
+        total_known_nutrients = 0.0
 
-        #check if ingredient already exists in recipe
+        for item in st.session_state.recipe:
+            ingredient_key = item["ingredient_key"]
+
+            for nutrient_data in all_ingredients[ingredient_key]["nutrients"].values():
+                if nutrient_data is not None and nutrient_data.get("value") is not None:
+                    total_known_nutrients += nutrient_data["value"]
+
+        return total_known_nutrients > 0
+
+    def get_next_available_percent_nutrient():
+        all_nutrients = get_supported_nutrients(ingredients)
+
+        nutrient_options = [
+            n for n in all_nutrients
+            if any(u in ["g", "mg", "mcg", "µg"]
+                for u in get_supported_units_for_nutrient(n, ingredients))
+        ]
+
+        selected = {
+            row["nutrient"]
+            for row in st.session_state.custom_percent_rows
+        }
+
+        for nutrient in nutrient_options:
+            if nutrient not in selected:
+                return nutrient
+
+        return None
+
+
+    def add_custom_percent_row():
+        next_nutrient = get_next_available_percent_nutrient()
+
+        if next_nutrient is None:
+            return
+
+        st.session_state.custom_percent_rows.append(
+            {
+                "nutrient": next_nutrient,
+                "percent": 0.0,
+            }
+        )
+
+
+    def remove_custom_percent_row(index: int):
+        if len(st.session_state.custom_percent_rows) > 1:
+            st.session_state.custom_percent_rows.pop(index)
+
+
+    def reset_custom_percent_rows():
+        first_nutrient = get_supported_nutrients(ingredients)[0]
+        st.session_state.custom_percent_rows = [
+            {"nutrient": first_nutrient, "percent": 0.0}
+        ]
+
+
+    def convert_percent_to_amount_unit(percent_value: float, serving_grams: float, nutrient_key: str):
+        """
+        Convert a label percentage into an absolute amount for the given serving.
+
+        Example:
+        - 40% calcium in a 5 g serving = 2 g calcium
+        """
+        amount_in_grams = serving_grams * (percent_value / 100.0)
+
+        allowed_units = get_supported_units_for_nutrient(nutrient_key, ingredients)
+
+        # Prefer smaller units for precision
+        if "mg" in allowed_units:
+            return amount_in_grams * 1000.0, "mg"
+        elif "mcg" in allowed_units:
+            return amount_in_grams * 1_000_000.0, "mcg"
+        elif "µg" in allowed_units:
+            return amount_in_grams * 1_000_000.0, "µg"
+        elif "g" in allowed_units:
+            return amount_in_grams, "g"
+        else:
+            return amount_in_grams, allowed_units[0]
+        
+    def get_next_available_nutrient():
+        nutrient_options = get_supported_nutrients(ingredients)
+        selected = {
+            row["nutrient"]
+            for row in st.session_state.custom_nutrient_rows
+        }
+
+        for nutrient in nutrient_options:
+            if nutrient not in selected:
+                return nutrient
+
+        return None
+
+    def add_custom_nutrient_row():
+        next_nutrient = get_next_available_nutrient()
+
+        if next_nutrient is None:
+            return
+
+        allowed_units = get_supported_units_for_nutrient(next_nutrient, ingredients)
+
+        st.session_state.custom_nutrient_rows.append(
+            {
+                "nutrient": next_nutrient,
+                "amount": 0.0,
+                "unit": allowed_units[0]
+            }
+        )
+
+    def remove_custom_nutrient_row(index: int):
+        if len(st.session_state.custom_nutrient_rows) > 1:
+            st.session_state.custom_nutrient_rows.pop(index)
+
+    def reset_custom_nutrient_rows():
+        first_nutrient = get_supported_nutrients(ingredients)[0]
+        allowed_units = get_supported_units_for_nutrient(first_nutrient, ingredients)
+
+        st.session_state.custom_nutrient_rows = [
+            {"nutrient": first_nutrient, "amount": 0.0, "unit": allowed_units[0]}
+        ]
+
+    def add_ingredient_to_recipe(ingredient_key, grams, display_grams="auto"):
+
+        ingredient_name = all_ingredients[ingredient_key]["name"]
+
+        if display_grams == "auto":
+            display_grams = grams
+
         for item in st.session_state.recipe:
             if item["ingredient_key"] == ingredient_key:
                 item["grams"] += grams
+
+                if item.get("display_grams") is not None and display_grams is not None:
+                    item["display_grams"] += display_grams
+                elif display_grams is None:
+                    item["display_grams"] = None
+
                 return
 
-        #add new entry if it doesn't exist yet
         st.session_state.recipe.append({
             "ingredient_key": ingredient_key,
             "ingredient_name": ingredient_name,
-            "grams": grams
+            "grams": grams,
+            "display_grams": display_grams
         })
+
+    if "pending_custom_ingredient_to_add" in st.session_state:
+        pending = st.session_state.pending_custom_ingredient_to_add
+
+        if pending["ingredient_key"] in all_ingredients:
+            add_ingredient_to_recipe(
+                pending["ingredient_key"],
+                pending["grams"],
+                pending.get("display_grams")
+            )
+            del st.session_state["pending_custom_ingredient_to_add"]
 
 
     def remove_ingredient_from_recipe(index: int):
@@ -59,7 +242,7 @@ with center:
         if guideline_value is None:
             return None
         if total_calories is None or total_calories <= 0:
-            return 0
+            return None
         return guideline_value * (total_calories / 1000)
     
     def get_missing_nutrient_ingredients(nutrient_key):
@@ -69,9 +252,8 @@ with center:
             ingredient_key = item["ingredient_key"]
             ingredient_name = item["ingredient_name"]
 
-            ingredient_info = ingredients[ingredient_key]
+            ingredient_info = all_ingredients[ingredient_key]
 
-            #skip salt and supplements 
             if ingredient_info.get("ignore_missing_warnings", False):
                 continue
 
@@ -104,7 +286,7 @@ with center:
             ingredient_key = item["ingredient_key"]
             grams = item["grams"]
 
-            nutrient_data = ingredients[ingredient_key]["nutrients"].get(nutrient_key)
+            nutrient_data = all_ingredients[ingredient_key]["nutrients"].get(nutrient_key)
 
             if nutrient_data is not None:
                 value = nutrient_data["value"]
@@ -361,6 +543,336 @@ with center:
             add_ingredient_to_recipe(selected_ingredient, grams)
             st.success(f"Added {ingredients[selected_ingredient]['name']} ({grams:.1f} g) to recipe.")
 
+
+
+    # --- Custom Ingredient Modal ---
+
+    @st.dialog("Add Custom Supplement")
+    def show_custom_ingredient_dialog():
+
+        mode_options = {
+            "amount": "Enter exact nutrient amounts",
+            "percent": "Convert label percentages"
+        }
+
+        entry_mode = st.radio(
+            "How do you want to enter nutrients?",
+            options=list(mode_options.keys()),
+            format_func=lambda key: mode_options[key],
+            horizontal=True,
+            help="Use 'exact amounts' if the label lists nutrients in mg, g, or IU. Use 'percentages' if the label lists nutrients as % and you know the serving weight."
+        )
+
+        st.markdown("---")
+
+        if entry_mode == "amount":
+
+            custom_name = st.text_input(
+                "Supplement name",
+                placeholder="Eggshell Powder"
+            )
+
+            recipe_grams = st.number_input(
+                "Serving weight in grams (optional)",
+                min_value=0.0,
+                value=0.0,
+                step=0.1
+            )
+
+            serving_label = st.text_input(
+                "Serving description (optional)",
+                placeholder="1 scoop"
+            )
+
+            nutrient_options = get_supported_nutrients(ingredients)
+            nutrient_labels = get_nutrient_labels(ingredients)
+
+            st.markdown("**Nutrients**")
+
+            header1, header2, header3, header4 = st.columns([3, 2, 2, 1])
+            with header1:
+                st.caption("Nutrient")
+            with header2:
+                st.caption("Amount")
+            with header3:
+                st.caption("Unit")
+            with header4:
+                st.caption("")
+
+            for i, row in enumerate(st.session_state.custom_nutrient_rows):
+                col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
+
+                with col1:
+                    # get all currently selected nutrients
+                    selected_nutrients = [
+                        r["nutrient"] for r in st.session_state.custom_nutrient_rows
+                    ]
+
+                    # allow current row to keep its value
+                    available_nutrients = [
+                        n for n in nutrient_options
+                        if n not in selected_nutrients or n == row["nutrient"]
+                    ]
+
+                    selected_nutrient = st.selectbox(
+                        "Nutrient",
+                        options=available_nutrients,
+                        format_func=lambda key: nutrient_labels.get(key, key),
+                        index=available_nutrients.index(row["nutrient"]) if row["nutrient"] in available_nutrients else 0,
+                        key=f"custom_nutrient_{i}",
+                        label_visibility="collapsed"
+                    )
+
+                    st.session_state.custom_nutrient_rows[i]["nutrient"] = selected_nutrient
+
+                    allowed_units = get_supported_units_for_nutrient(selected_nutrient, ingredients)
+
+                    if st.session_state.custom_nutrient_rows[i]["unit"] not in allowed_units:
+                        st.session_state.custom_nutrient_rows[i]["unit"] = allowed_units[0]
+
+                with col2:
+                    amount = st.number_input(
+                        "Amount",
+                        min_value=0.0,
+                        value=float(row["amount"]),
+                        step=0.1,
+                        key=f"custom_amount_{i}",
+                        label_visibility="collapsed"
+                    )
+                    st.session_state.custom_nutrient_rows[i]["amount"] = amount
+
+                with col3:
+
+                    selected_unit = st.selectbox(
+                        "Unit",
+                        options=allowed_units,
+                        index=allowed_units.index(row["unit"]) if row["unit"] in allowed_units else 0,
+                        key=f"custom_unit_{i}",
+                        label_visibility="collapsed"
+                    )
+
+                    st.session_state.custom_nutrient_rows[i]["unit"] = selected_unit
+
+                with col4:
+                    if st.button("✕", key=f"remove_custom_nutrient_{i}"):
+                        remove_custom_nutrient_row(i)
+                        st.rerun()
+
+            next_nutrient = get_next_available_nutrient()
+
+            if next_nutrient is not None:
+                if st.button("+ Add another nutrient", key="add_custom_nutrient_row"):
+                    add_custom_nutrient_row()
+                    st.rerun()
+            else:
+                st.info("All supported nutrients have already been added.")
+
+        elif entry_mode == "percent":
+
+            custom_name = st.text_input(
+                "Supplement name",
+                placeholder="Eggshell powder"
+            )
+
+            recipe_grams = st.number_input(
+                "Serving weight in grams",
+                min_value=0.0,
+                value=1.0,
+                step=0.1,
+            )
+
+            serving_label = st.text_input(
+                "Serving description (optional)",
+                placeholder="1 scoop"
+            )
+
+            all_nutrients = get_supported_nutrients(ingredients)
+
+            nutrient_options = [
+                n for n in all_nutrients
+                if any(u in ["g", "mg", "mcg", "µg"]
+                    for u in get_supported_units_for_nutrient(n, ingredients))
+            ]
+            nutrient_labels = get_nutrient_labels(ingredients)
+
+            st.markdown("**Nutrients listed as percentages**")
+            st.caption("Percent values are converted using: amount = serving weight × (% / 100)")
+
+            header1, header2, header3, header4 = st.columns([3, 2, 2, 1])
+            with header1:
+                st.caption("Nutrient")
+            with header2:
+                st.caption("Percent (%)")
+            with header3:
+                st.caption("Converted amount")
+            with header4:
+                st.caption("")
+
+            for i, row in enumerate(st.session_state.custom_percent_rows):
+                col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
+
+                with col1:
+                    selected_nutrients = [
+                        r["nutrient"] for r in st.session_state.custom_percent_rows
+                    ]
+
+                    available_nutrients = [
+                        n for n in nutrient_options
+                        if n not in selected_nutrients or n == row["nutrient"]
+                    ]
+
+                    selected_nutrient = st.selectbox(
+                        "Nutrient",
+                        options=available_nutrients,
+                        format_func=lambda key: nutrient_labels.get(key, key),
+                        index=available_nutrients.index(row["nutrient"]) if row["nutrient"] in available_nutrients else 0,
+                        key=f"custom_percent_nutrient_{i}",
+                        label_visibility="collapsed"
+                    )
+
+                    st.session_state.custom_percent_rows[i]["nutrient"] = selected_nutrient
+
+                with col2:
+                    percent_value = st.number_input(
+                        "Percent",
+                        min_value=0.0,
+                        value=float(row["percent"]),
+                        step=0.1,
+                        key=f"custom_percent_value_{i}",
+                        label_visibility="collapsed"
+                    )
+                    st.session_state.custom_percent_rows[i]["percent"] = percent_value
+
+                with col3:
+                    if recipe_grams > 0:
+                        converted_amount, converted_unit = convert_percent_to_amount_unit(
+                            percent_value=percent_value,
+                            serving_grams=recipe_grams,
+                            nutrient_key=selected_nutrient
+                        )
+                        st.write(f"{converted_amount:.3f} {converted_unit}")
+                    else:
+                        st.write("—")
+
+                with col4:
+                    if st.button("✕", key=f"remove_custom_percent_{i}"):
+                        remove_custom_percent_row(i)
+                        st.rerun()
+
+            next_percent_nutrient = get_next_available_percent_nutrient()
+
+            if next_percent_nutrient is not None:
+                if st.button("+ Add another nutrient", key="add_custom_percent_row"):
+                    add_custom_percent_row()
+                    st.rerun()
+            else:
+                st.info("All supported nutrients have already been added.")
+
+        st.markdown("---")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("Cancel", key="cancel_custom_supplement"):
+                reset_custom_nutrient_rows()
+                reset_custom_percent_rows()
+                st.session_state.show_custom_dialog = False
+                st.rerun()
+
+        with col2:
+            if st.button("Add Supplement", type="primary", key="submit_custom_supplement"):
+
+                if not custom_name.strip():
+                    st.warning("Please enter a supplement name.")
+                    return
+
+                if entry_mode == "percent" and recipe_grams <= 0:
+                    st.warning("Serving weight is required for percent mode.")
+                    return
+
+                if entry_mode == "amount":
+                    valid_rows = [
+                        row for row in st.session_state.custom_nutrient_rows
+                        if float(row["amount"]) > 0
+                    ]
+
+                elif entry_mode == "percent":
+                    valid_rows = []
+
+                    for row in st.session_state.custom_percent_rows:
+                        percent_value = float(row["percent"])
+                        if percent_value <= 0 or recipe_grams <= 0:
+                            continue
+
+                        converted_amount, converted_unit = convert_percent_to_amount_unit(
+                            percent_value=percent_value,
+                            serving_grams=recipe_grams,
+                            nutrient_key=row["nutrient"]
+                        )
+
+                        valid_rows.append(
+                            {
+                                "nutrient": row["nutrient"],
+                                "amount": converted_amount,
+                                "unit": converted_unit,
+                            }
+                        )
+
+                if not valid_rows:
+                    st.warning("Please enter at least one nutrient amount greater than 0.")
+                    return
+
+                try:
+                    custom_key, custom_ingredient = build_custom_ingredient(
+                        name=custom_name,
+                        serving_label=serving_label,
+                        recipe_grams=recipe_grams,
+                        nutrient_rows=valid_rows,
+                        ingredients=ingredients,
+                        custom_index=len(st.session_state.custom_ingredients) + 1,
+                    )
+                except ValueError as e:
+                    st.warning(str(e))
+                    return
+
+                st.session_state.custom_ingredients[custom_key] = custom_ingredient
+
+                grams_to_add = recipe_grams if recipe_grams > 0 else 100.0
+                display_grams = recipe_grams if recipe_grams > 0 else None
+
+                if entry_mode == "amount":
+                    st.session_state["pending_custom_ingredient_to_add"] = {
+                        "ingredient_key": custom_key,
+                        "grams": grams_to_add,
+                        "display_grams": display_grams
+                    }
+                elif entry_mode == "percent" and recipe_grams > 0:
+                    st.session_state["pending_custom_ingredient_to_add"] = {
+                        "ingredient_key": custom_key,
+                        "grams": recipe_grams,
+                        "display_grams": recipe_grams
+                    }
+
+                reset_custom_nutrient_rows()
+                reset_custom_percent_rows()
+                st.session_state.show_custom_dialog = False
+                st.rerun()
+
+    #the supplement button
+    st.subheader("Add Custom Supplement")
+
+    st.write("Add vitamins, minerals, or other supplements not listed in the ingredient database.")
+
+    if st.button("Add Supplement"):
+        st.session_state.show_custom_dialog = True
+        st.rerun()
+
+    if st.session_state.show_custom_dialog:
+        show_custom_ingredient_dialog()
+
+
+
+
     #recommender tool-----
     st.subheader("Ingredient Suggestions")
 
@@ -374,7 +886,7 @@ with center:
         if st.button("Suggest Ingredients"):
             st.session_state.ingredient_suggestions = get_top_ingredient_suggestions(
                 recipe=st.session_state.recipe,
-                ingredients=ingredients,
+                ingredients=all_ingredients,
                 guidelines=guidelines,
                 top_n=3,
                 exclude_existing=False
@@ -420,10 +932,14 @@ with center:
     else:
         recipe_df = pd.DataFrame(st.session_state.recipe)
 
-        display_df = recipe_df[["ingredient_name", "grams"]].rename(
+        recipe_df["display_amount"] = recipe_df["display_grams"].apply(
+            lambda x: "N/A" if pd.isna(x) else f"{x:.1f}"
+        )
+
+        display_df = recipe_df[["ingredient_name", "display_amount"]].rename(
             columns={
                 "ingredient_name": "Ingredient",
-                "grams": "Amount (g)"
+                "display_amount": "Amount (g)"
             }
         )
 
@@ -436,14 +952,19 @@ with center:
             key = item["ingredient_key"]
             grams = item["grams"]
 
-            kcal_per_100g = ingredients[key]["energy_kcal"]["value"]
+            kcal_per_100g = all_ingredients[key]["energy_kcal"]["value"]
 
             if kcal_per_100g is not None:
                 total_calories += (grams / 100) * kcal_per_100g
 
+        if total_calories <= 0 and recipe_has_nutrients_but_no_calories():
+            st.warning(
+                "This recipe contains nutrient data but no calculable energy (kcal), so minimum and maximum targets cannot be scaled and the progress bars cannot be evaluated yet."
+            )
+
         evaluation = evaluate_recipe(
             recipe=st.session_state.recipe,
-            ingredients=ingredients,
+            ingredients=all_ingredients,
             guidelines=guidelines
         )
 
@@ -471,7 +992,10 @@ with center:
                 st.write(item["ingredient_name"])
 
             with col2:
-                st.write(f"{item['grams']:.1f} g")
+                if item.get("display_grams") is None:
+                    st.write("N/A")
+                else:
+                    st.write(f"{item['display_grams']:.1f} g")
 
             with col3:
                 if st.button("Remove", key=f"remove_{i}"):
