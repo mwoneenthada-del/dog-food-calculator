@@ -23,44 +23,46 @@ with center:
     ingredients = ingredient_data["ingredients"]
 
     DISPLAYED_NUTRIENT_KEYS = [
-        "protein",
         "arginine",
-        "histidine",
-        "isoleucine",
-        "leucine",
-        "lysine",
-        "methionine",
-        "cystine",
-        "phenylalanine",
-        "tyrosine",
-        "threonine",
-        "tryptophan",
-        "valine",
-        "fat",
-        "linoleic_acid",
         "calcium",
-        "phosphorus",
-        "potassium",
-        "sodium",
+        "carbohydrate",
         "chloride",
-        "magnesium",
+        "choline",
         "copper",
+        "cystine",
+        "energy_kcal",
+        "fat",
+        "histidine",
         "iodine",
         "iron",
+        "isoleucine",
+        "leucine",
+        "linoleic_acid",
+        "lysine",
+        "magnesium",
         "manganese",
+        "methionine",
+        "phenylalanine",
+        "phosphorus",
+        "potassium",
+        "protein",
         "selenium_wet",
-        "zinc",
+        "sodium",
+        "threonine",
+        "tryptophan",
+        "tyrosine",
+        "valine",
         "vitamin_a",
-        "vitamin_d",
-        "vitamin_e",
         "vitamin_b1",
+        "vitamin_b12",
         "vitamin_b2",
+        "vitamin_b3",
         "vitamin_b5",
         "vitamin_b6",
-        "vitamin_b12",
-        "vitamin_b3",
         "vitamin_b9",
-        "choline",
+        "vitamin_d",
+        "vitamin_e",
+        "zinc",
     ]
     
     def get_calculator_nutrient_options():
@@ -1111,7 +1113,19 @@ with center:
                 if item.get("display_grams") is None:
                     st.write("N/A")
                 else:
-                    st.write(f"{item['display_grams']:.1f} g")
+                    new_amount = st.number_input(
+                        "Amount (g)",
+                        min_value=0.0,
+                        value=float(item["display_grams"]),
+                        step=1.0,
+                        key=f"edit_amount_{i}",
+                        label_visibility="collapsed"
+                    )
+
+                    if new_amount != item["display_grams"]:
+                        st.session_state.recipe[i]["display_grams"] = new_amount
+                        st.session_state.recipe[i]["grams"] = new_amount
+                        st.rerun()
 
             with col3:
                 if st.button("Remove", key=f"remove_{i}"):
