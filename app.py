@@ -22,6 +22,51 @@ with center:
 
     ingredients = ingredient_data["ingredients"]
 
+    DISPLAYED_NUTRIENT_KEYS = [
+        "protein",
+        "arginine",
+        "histidine",
+        "isoleucine",
+        "leucine",
+        "lysine",
+        "methionine",
+        "cystine",
+        "phenylalanine",
+        "tyrosine",
+        "threonine",
+        "tryptophan",
+        "valine",
+        "fat",
+        "linoleic_acid",
+        "calcium",
+        "phosphorus",
+        "potassium",
+        "sodium",
+        "chloride",
+        "magnesium",
+        "copper",
+        "iodine",
+        "iron",
+        "manganese",
+        "selenium_wet",
+        "zinc",
+        "vitamin_a",
+        "vitamin_d",
+        "vitamin_e",
+        "vitamin_b1",
+        "vitamin_b2",
+        "vitamin_b5",
+        "vitamin_b6",
+        "vitamin_b12",
+        "vitamin_b3",
+        "vitamin_b9",
+        "choline",
+    ]
+    
+    def get_calculator_nutrient_options():
+        all_nutrients = get_supported_nutrients(ingredients)
+        return [n for n in DISPLAYED_NUTRIENT_KEYS if n in all_nutrients]
+
 
     #load nutrient guidlines-----
     with open("data/guidelines.json", "r", encoding="utf-8") as f:
@@ -33,7 +78,7 @@ with center:
         st.session_state.custom_ingredients = {}
 
     if "custom_percent_rows" not in st.session_state:
-        all_nutrients = get_supported_nutrients(ingredients)
+        all_nutrients = get_calculator_nutrient_options()
 
         percent_nutrients = [
             n for n in all_nutrients
@@ -48,7 +93,7 @@ with center:
         ]
 
     if "custom_nutrient_rows" not in st.session_state:
-        first_nutrient = get_supported_nutrients(ingredients)[0]
+        first_nutrient = get_calculator_nutrient_options()[0]
         allowed_units = get_supported_units_for_nutrient(first_nutrient, ingredients)
 
         st.session_state.custom_nutrient_rows = [
@@ -87,7 +132,7 @@ with center:
         return total_known_nutrients > 0
 
     def get_next_available_percent_nutrient():
-        all_nutrients = get_supported_nutrients(ingredients)
+        all_nutrients = get_calculator_nutrient_options()
 
         nutrient_options = [
             n for n in all_nutrients
@@ -127,7 +172,14 @@ with center:
 
 
     def reset_custom_percent_rows():
-        first_nutrient = get_supported_nutrients(ingredients)[0]
+        percent_nutrients = [
+            n for n in get_calculator_nutrient_options()
+            if any(u in ["g", "mg", "mcg", "µg"]
+                for u in get_supported_units_for_nutrient(n, ingredients))
+        ]
+
+        first_nutrient = percent_nutrients[0]
+
         st.session_state.custom_percent_rows = [
             {"nutrient": first_nutrient, "percent": 0.0}
         ]
@@ -157,7 +209,7 @@ with center:
             return amount_in_grams, allowed_units[0]
         
     def get_next_available_nutrient():
-        nutrient_options = get_supported_nutrients(ingredients)
+        nutrient_options = get_calculator_nutrient_options()
         selected = {
             row["nutrient"]
             for row in st.session_state.custom_nutrient_rows
@@ -190,7 +242,7 @@ with center:
             st.session_state.custom_nutrient_rows.pop(index)
 
     def reset_custom_nutrient_rows():
-        first_nutrient = get_supported_nutrients(ingredients)[0]
+        first_nutrient = get_calculator_nutrient_options()[0]
         allowed_units = get_supported_units_for_nutrient(first_nutrient, ingredients)
 
         st.session_state.custom_nutrient_rows = [
@@ -310,7 +362,7 @@ with center:
         return get_nutrient_total_in_recipe(nutrient_key)
 
 
-    def render_nutrient_row(label, amount, unit, min_value, max_value, missing_ingredients=None):
+    def render_nutrient_row_desktop(label, amount, unit, min_value, max_value, missing_ingredients=None):
         progress_fraction = 0.0
         percent_label = "-"
 
@@ -326,7 +378,6 @@ with center:
             else:
                 percent = 100.0
 
-                #only go above 100 if there is a max and amount exceeds max
                 if max_value is not None and amount > max_value:
                     percent = (amount / max_value) * 100
 
@@ -364,22 +415,88 @@ with center:
             else:
                 st.write("-")
 
+
+    def render_nutrient_row_compact(label, amount, unit, min_value, max_value, missing_ingredients=None):
+        progress_fraction = 0.0
+        percent_label = "-"
+
+        if max_value is not None and max_value <= 0:
+            max_value = None
+
+        if min_value is None or min_value <= 0:
+            progress_fraction = 0.0
+            percent_label = "-"
+        else:
+            if amount < min_value:
+                percent = (amount / min_value) * 100
+            else:
+                percent = 100.0
+
+                if max_value is not None and amount > max_value:
+                    percent = (amount / max_value) * 100
+
+            progress_fraction = min(percent / 100, 1.0)
+            percent_label = f"{percent:.0f}%"
+
+        if missing_ingredients:
+            tooltip_text = "Missing value for: " + ", ".join(missing_ingredients)
+            st.markdown(
+                f"<span title='{tooltip_text}'><strong>{label} *</strong></span>",
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown(f"**{label}**")
+
+        amount_text = f"{amount:.3f} {unit}"
+        min_text = f"{min_value:.2f} {unit}" if min_value is not None else "-"
+        max_text = f"{max_value:.2f} {unit}" if max_value is not None else "-"
+
+        st.caption(f"Amount: {amount_text} • Min: {min_text} • Max: {max_text}")
+        st.progress(progress_fraction)
+        st.caption(f"% of min: {percent_label}")
+        st.markdown("---")
+
+
+    def render_nutrient_row(label, amount, unit, min_value, max_value, missing_ingredients=None):
+        if compact_view:
+            render_nutrient_row_compact(
+                label=label,
+                amount=amount,
+                unit=unit,
+                min_value=min_value,
+                max_value=max_value,
+                missing_ingredients=missing_ingredients,
+            )
+        else:
+            render_nutrient_row_desktop(
+                label=label,
+                amount=amount,
+                unit=unit,
+                min_value=min_value,
+                max_value=max_value,
+                missing_ingredients=missing_ingredients,
+            )
+
     #app title-----
     st.title("Dog Food Nutrition Calculator")
 
     st.write(
-    "**Note: This calculator is for educational purposes only and does not replace professional veterinary advice."
+    "Estimate the nutritional content of homemade dog food recipes using FEDIAF adult maintenance guidelines."
     )
 
     st.write(
-        "Based on FEDIAF adult maintenance guidelines for healthy adult dogs. Not intended for puppies, pregnant, or medically managed diets."
+        "Build a recipe by selecting ingredients and entering amounts in grams."
     )
     
-    st.write("Build a recipe by selecting ingredients and entering the amount in grams.")
+    st.write("*For educational use only. Not a substitute for veterinary advice. Not intended for puppies, pregnant dogs, or medically managed diets.*")
 
     #dropdown-----
-    with st.expander("Data Notes & Assumptions"):
+    with st.expander("Data Sources & Limitations"):
         st.markdown("""
+    **Overview**
+    
+    This calculator estimates the nutritional content of homemade dog food recipes using public food data and FEDIAF guidelines for adult dogs. You can build recipes, review nutrient totals, and see how well they meet recommended ranges.    
+    
     **Data sources**
     - The Canadian Nutrient File (CNF) is the primary source of nutrient data for ingredients in this calculator.
                     
@@ -400,8 +517,8 @@ with center:
     
         st.markdown("""
     
-    **Supplements**
-    - Four supplements were included in the calculator and are labeled "(supplement, averaged)". These include: eggshell powder, fish oil, bone meal, and calcium carbonate.
+    **Predefined supplements (included in dataset)**
+    - Four predefined supplements were included in the calculator and are labeled "(supplement, averaged)". These include: eggshell powder, fish oil, bone meal, and calcium carbonate.
     
     - Nutrient values for these were calculated as averages from several commercial supplement products. The products used for these calculations are documented in the downloadable spreadsheet below.
     
@@ -418,6 +535,16 @@ with center:
     
         st.markdown("""
                     
+        **Custom supplements (user-entered)**
+        - Users can create custom supplements by entering nutrient amounts directly or by converting label percentages using a specified serving weight.
+
+        - Only the nutrients entered by the user are included in calculations. Nutrients not provided are treated as unknown and are not counted toward totals or recommendations.
+
+        - Percentage values are interpreted as percent by weight of the product using: amount = serving weight × (% / 100)
+
+        - Users are responsible for correctly interpreting supplement labels, including units, serving sizes, and percentage values.
+                    
+
         **Iodine and Chloride**
         - The Canadian Nutrient File (CNF) does not report iodine or chloride values for any of the foods included in this calculator.
 
@@ -450,18 +577,7 @@ with center:
                 mime="application/json"
             )
     
-        st.markdown("""            
-
-        **Calculation method**
-        - Recipe energy is calculated using metabolizable energy values from the Canadian Nutrient File (kcal per 100 g) and scaled according to the amount of each ingredient used.
-
-        - Nutrient totals are calculated by summing the contribution of each ingredient based on its reported nutrient values per 100 g.
-
-        - Recommended nutrient ranges are based on FEDIAF nutritional guidelines for adult dogs and are scaled according to the total caloric content of the recipe.
-
-        - Some nutrients shown in the calculator (such as methionine + cystine and phenylalanine + tyrosine) are calculated by combining related amino acids.
-         
-                    
+        st.markdown("""                                
         **Overall Nutrient Target Coverage**
                     
         The overall nutrient target coverage represents the percentage of nutrient targets that fall within recommended ranges for the current recipe. Each nutrient is evaluated against minimum and, where applicable, maximum guideline values scaled to the recipe’s total energy. A nutrient is counted as “met” only if it is within this acceptable range. Values below the minimum or above the maximum are considered unmet. The final percentage reflects the proportion of all evaluated nutrients that meet these criteria.   
@@ -517,6 +633,8 @@ with center:
 
     #add ingredients form-----
     st.subheader("Add Ingredient")
+
+    st.caption("Tip: Type to search ingredients")
 
     ingredient_keys = list(ingredients.keys())
 
@@ -584,14 +702,14 @@ with center:
                 placeholder="1 scoop"
             )
 
-            nutrient_options = get_supported_nutrients(ingredients)
+            nutrient_options = get_calculator_nutrient_options()
             nutrient_labels = get_nutrient_labels(ingredients)
 
             st.markdown("**Nutrients**")
 
             header1, header2, header3, header4 = st.columns([3, 2, 2, 1])
             with header1:
-                st.caption("Nutrient")
+                st.caption("Nutrient (type to search)")
             with header2:
                 st.caption("Amount")
             with header3:
@@ -686,13 +804,14 @@ with center:
                 placeholder="1 scoop"
             )
 
-            all_nutrients = get_supported_nutrients(ingredients)
+            all_nutrients = get_calculator_nutrient_options()
 
             nutrient_options = [
                 n for n in all_nutrients
                 if any(u in ["g", "mg", "mcg", "µg"]
                     for u in get_supported_units_for_nutrient(n, ingredients))
             ]
+
             nutrient_labels = get_nutrient_labels(ingredients)
 
             st.markdown("**Nutrients listed as percentages**")
@@ -700,7 +819,7 @@ with center:
 
             header1, header2, header3, header4 = st.columns([3, 2, 2, 1])
             with header1:
-                st.caption("Nutrient")
+                st.caption("Nutrient (type to search)")
             with header2:
                 st.caption("Percent (%)")
             with header3:
@@ -923,7 +1042,7 @@ with center:
                 "No additional ingredient recommendations were identified. The recipe may already meet nutrient targets, or further additions could create imbalances."
             )
 
-
+    total_calories = 0.0
     #current recipe-----
     st.subheader("Current Recipe")
 
@@ -944,9 +1063,6 @@ with center:
         )
 
         st.dataframe(display_df, use_container_width=True)
-        
-        #calculate recipe calories
-        total_calories = 0
 
         for item in st.session_state.recipe:
             key = item["ingredient_key"]
@@ -1002,6 +1118,13 @@ with center:
                     remove_ingredient_from_recipe(i)
                     st.rerun()
 
+    #mobile version toggle
+    compact_view = st.toggle(
+        "Compact view (better for phones/tablets)",
+        value=False,
+        help="Use a stacked nutrient layout optimized for smaller screens."
+    )
+
     #PROTEIN
     #nutrient display-----
     if len(st.session_state.recipe) == 0:
@@ -1013,17 +1136,18 @@ with center:
 
             protein_group = guidelines["adult_maintenance"]["protein_amino_acids"]
 
-            header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
-            with header_col1:
-                st.markdown("**Nutrient**")
-            with header_col2:
-                st.markdown("**Amount**")
-            with header_col3:
-                st.markdown("**% of min**")
-            with header_col4:
-                st.markdown("**min**")
-            with header_col5:
-                st.markdown("**max**")
+            if not compact_view:
+                header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
+                with header_col1:
+                    st.markdown("**Nutrient**")
+                with header_col2:
+                    st.markdown("**Amount**")
+                with header_col3:
+                    st.markdown("**% of min**")
+                with header_col4:
+                    st.markdown("**min**")
+                with header_col5:
+                    st.markdown("**max**")
 
             for nutrient_key, nutrient_info in protein_group.items():
                 label = nutrient_info["label"]
@@ -1052,18 +1176,18 @@ with center:
 
             fat_keys_to_show = ["fat", "linoleic_acid"]
             fat_group = guidelines["adult_maintenance"]["fat_fatty_acids"]
-
-            header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
-            with header_col1:
-                st.markdown("**Nutrient**")
-            with header_col2:
-                st.markdown("**Amount**")
-            with header_col3:
-                st.markdown("**% of min**")
-            with header_col4:
-                st.markdown("**min**")
-            with header_col5:
-                st.markdown("**max**")
+            if not compact_view:
+                header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
+                with header_col1:
+                    st.markdown("**Nutrient**")
+                with header_col2:
+                    st.markdown("**Amount**")
+                with header_col3:
+                    st.markdown("**% of min**")
+                with header_col4:
+                    st.markdown("**min**")
+                with header_col5:
+                    st.markdown("**max**")
 
             for nutrient_key in fat_keys_to_show:
                 nutrient_info = fat_group[nutrient_key]
@@ -1104,17 +1228,18 @@ with center:
 
             mineral_group = guidelines["adult_maintenance"]["minerals"]
 
-            header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
-            with header_col1:
-                st.markdown("**Nutrient**")
-            with header_col2:
-                st.markdown("**Amount**")
-            with header_col3:
-                st.markdown("**% of min**")
-            with header_col4:
-                st.markdown("**min**")
-            with header_col5:
-                st.markdown("**max**")
+            if not compact_view:
+                header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
+                with header_col1:
+                    st.markdown("**Nutrient**")
+                with header_col2:
+                    st.markdown("**Amount**")
+                with header_col3:
+                    st.markdown("**% of min**")
+                with header_col4:
+                    st.markdown("**min**")
+                with header_col5:
+                    st.markdown("**max**")
 
             for nutrient_key in mineral_keys_to_show:
 
@@ -1141,27 +1266,31 @@ with center:
                         ratio_display = "N/A"
                         status = "Phosphorus required to calculate ratio"
 
-                    col1, col2, col3, col4, col5 = st.columns([2.5, 1.5, 4, 1, 1])
-
-                    with col1:
-                        st.write(label)
-
-                    with col2:
-                        st.write(ratio_display)
-
-                    with col3:
-                        st.write("")
+                    if compact_view:
+                        st.markdown(f"**{label}**")
+                        st.caption(f"Amount: {ratio_display} • Min: 1 : 1 • Max: 2 : 1")
                         st.caption(status)
-                        st.write("") 
+                        st.markdown("---")
+                    else:
+                        col1, col2, col3, col4, col5 = st.columns([2.5, 1.5, 4, 1, 1])
 
-                    with col4:
-                        st.write("1 : 1")
+                        with col1:
+                            st.write(label)
 
-                    with col5:
-                        st.write("2 : 1")
+                        with col2:
+                            st.write(ratio_display)
 
+                        with col3:
+                            st.write("")
+                            st.caption(status)
+                            st.write("")
+
+                        with col4:
+                            st.write("1 : 1")
+
+                        with col5:
+                            st.write("2 : 1")
                 else:
-           
                     nutrient_info = mineral_group[nutrient_key]
 
                     label = nutrient_info["label"]
@@ -1199,17 +1328,18 @@ with center:
 
             trace_group = guidelines["adult_maintenance"]["trace_elements"]
 
-            header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
-            with header_col1:
-                st.markdown("**Nutrient**")
-            with header_col2:
-                st.markdown("**Amount**")
-            with header_col3:
-                st.markdown("**% of min**")
-            with header_col4:
-                st.markdown("**min**")
-            with header_col5:
-                st.markdown("**max**")
+            if not compact_view:
+                header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
+                with header_col1:
+                    st.markdown("**Nutrient**")
+                with header_col2:
+                    st.markdown("**Amount**")
+                with header_col3:
+                    st.markdown("**% of min**")
+                with header_col4:
+                    st.markdown("**min**")
+                with header_col5:
+                    st.markdown("**max**")
 
             for nutrient_key in trace_keys_to_show:
                 nutrient_info = trace_group[nutrient_key]
@@ -1254,17 +1384,19 @@ with center:
 
             vitamin_group = guidelines["adult_maintenance"]["vitamins"]
 
-            header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
-            with header_col1:
-                st.markdown("**Nutrient**")
-            with header_col2:
-                st.markdown("**Amount**")
-            with header_col3:
-                st.markdown("**% of min**")
-            with header_col4:
-                st.markdown("**min**")
-            with header_col5:
-                st.markdown("**max**")
+            if not compact_view:
+
+                header_col1, header_col2, header_col3, header_col4, header_col5 = st.columns([2.5, 1.5, 4, 1, 1])
+                with header_col1:
+                    st.markdown("**Nutrient**")
+                with header_col2:
+                    st.markdown("**Amount**")
+                with header_col3:
+                    st.markdown("**% of min**")
+                with header_col4:
+                    st.markdown("**min**")
+                with header_col5:
+                    st.markdown("**max**")
 
             for nutrient_key in vitamin_keys_to_show:
                 nutrient_info = vitamin_group[nutrient_key]
@@ -1288,7 +1420,7 @@ with center:
                     max_value=scaled_max,
                     missing_ingredients=missing_ingredients
                 )
-    
+        
         #donut chart macronutrient display-----
         with st.expander("Macronutrient Distribution", expanded=True):
 
@@ -1346,4 +1478,12 @@ with center:
                 "This chart is provided for informational purposes to help visualize the caloric contribution of protein, fat, and carbohydrates."
                 )
 
-    st.caption("Built by Jessie Allen • github.com/jallen244")
+    st.markdown("---")
+
+    st.markdown(
+        "Built by Jessie Allen • github.com/jallen244"
+    )
+
+    st.markdown(
+        "Have feedback or suggestions? [Submit an issue on GitHub](https://github.com/jallen244/dog-food-calculator/issues)"
+    )

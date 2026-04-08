@@ -59,11 +59,11 @@ Certain supplements included in the dataset are averaged from multiple commercia
 
 ---
 
-## Running Locally
+## Live App
 
-Clone the repository:
+Use the calculator here:  
+https://dog-food-calculator.streamlit.app/
 
-```bash
-git clone https://github.com/jallen244/dog-food-calculator.git
-cd dog-food-calculator
+```
+
 ```
