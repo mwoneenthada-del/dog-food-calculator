@@ -63,7 +63,3 @@ Certain supplements included in the dataset are averaged from multiple commercia
 
 Use the calculator here:  
 https://dog-food-calculator.streamlit.app/
-
-```
-
-```
