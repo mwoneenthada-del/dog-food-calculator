@@ -482,567 +482,463 @@ with center:
     #app title-----
     st.title("Dog Food Nutrition Calculator")
 
-    st.write(
-    "Estimate the nutritional content of homemade dog food recipes using FEDIAF adult maintenance guidelines."
-    )
-
-    st.write(
-        "Build a recipe by selecting ingredients and entering amounts in grams."
-    )
-    
-    st.write("*For educational use only. Not a substitute for veterinary advice. Not intended for puppies, pregnant dogs, or medically managed diets.*")
-
-    #dropdown-----
-    with st.expander("Data Sources & Limitations"):
+    with st.expander("Quick Guide"):
         st.markdown("""
-    **Overview**
-    
-    This calculator estimates the nutritional content of homemade dog food recipes using public food data and FEDIAF guidelines for adult dogs. You can build recipes, review nutrient totals, and see how well they meet recommended ranges.    
-    
-    **Data sources**
-    - The Canadian Nutrient File (CNF) is the primary source of nutrient data for ingredients in this calculator.
-                    
-    - Iodized salt uses nutrient values from USDA FoodData Central because iodine values are not reported for salt in CNF.
-                    
-    - Certain ingredients labeled “(supplement, averaged)” were added manually. Additional details about these ingredients are provided in the Supplements section below.
-                    
-    - The ingredient nutrient dataset used by this calculator is available for download in JSON format below.
-    """)
-        
-        with open("data/ingredients.json", "rb") as file:
-            st.download_button(
-                label="Download ingredient nutrient dataset (JSON)",
-                data=file,
-                file_name="ingredients.json",
-                mime="application/json"
-            )
-    
-        st.markdown("""
-    
-    **Predefined supplements (included in dataset)**
-    - Four predefined supplements were included in the calculator and are labeled "(supplement, averaged)". These include: eggshell powder, fish oil, bone meal, and calcium carbonate.
-    
-    - Nutrient values for these were calculated as averages from several commercial supplement products. The products used for these calculations are documented in the downloadable spreadsheet below.
-    
-    - Only the primary nutrients typically supplied by each supplement were recorded (e.g., calcium for eggshell powder and calcium carbonate; calcium and phosphorus for bone meal; calories, total fat, EPA, and DHA for fish oil). Trace nutrients that may be present in small amounts were not recorded.
-    """)
-        
-        with open("data/supplement_average_sources.xlsx", "rb") as file:
-            st.download_button(
-                label="Download supplement average source data",
-                data=file,
-                file_name="supplement_average_sources.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
-    
-        st.markdown("""
-                    
-        **Custom supplements (user-entered)**
-        - Users can create custom supplements by entering nutrient amounts directly or by converting label percentages using a specified serving weight.
 
-        - Only the nutrients entered by the user are included in calculations. Nutrients not provided are treated as unknown and are not counted toward totals or recommendations.
+        *For educational use only. This tool does not replace veterinary advice and is not intended for puppies, pregnant dogs, or medically managed diets.*
 
-        - Percentage values are interpreted as percent by weight of the product using: amount = serving weight × (% / 100)
+        **Overview**
+        - This calculator helps you check whether a homemade dog food recipe meets basic nutrient targets for healthy adult dogs based on FEDIAF guidelines.
 
-        - Users are responsible for correctly interpreting supplement labels, including units, serving sizes, and percentage values.
-                    
+        - Add ingredients to build your recipe, and the calculator compares nutrient totals against recommended ranges.
 
-        **Iodine and Chloride**
-        - The Canadian Nutrient File (CNF) does not report iodine or chloride values for any of the foods included in this calculator.
+        - Nutrient targets are defined per 1000 kcal and are automatically scaled based on your recipe’s total calories.
 
-        - Iodine levels in foods can vary widely depending on environmental factors such as soil and water iodine content.
+        - Results help show where a recipe may be low or high in specific nutrients.
 
-        - Chloride is rarely reported in food composition databases because it is typically present as sodium chloride (salt) and is therefore often inferred from sodium rather than measured directly.
+        **How to use**
+        1. Add ingredients and amounts in grams to build your recipe.
+        2. Review the nutrient sections to see how your recipe compares to recommended ranges.
+        3. Use **Ingredient Suggestions** to identify possible ways to improve nutrient coverage.
+        4. Use **Add Supplement** to enter custom supplements when needed.
 
-        - In this calculator, iodine and chloride are supplied through iodized salt, which provides a consistent and measurable source of these nutrients. Table salt is listed in the Canadian Nutrient File (CNF), but iodine values are not reported for it. Therefore, nutrient values for iodized salt were obtained from USDA FoodData Central.
+        **How to read the results**
+        - Progress bars show progress toward the recommended minimum for each nutrient.
+        - If a nutrient has a maximum, values above that range indicate excess.
+        - **Nutrient Target Coverage** shows the percentage of evaluated nutrients that fall within recommended ranges.
 
-        - Chloride for iodized salt was calculated from sodium assuming sodium chloride composition (Cl = Na × 1.54).
+        **Important notes**
+        - A `*` next to a nutrient means one or more ingredients are missing source data for that nutrient.
+        - Supplements (custom or predefined) only include selected nutrients by design and do not trigger missing-data warnings.
+        - Missing data may cause totals to be underestimated.
+        - Ingredients labeled **“(supplement, averaged)”** are rough placeholders based on commercial products.
+        - For better accuracy, enter your specific supplement using **Add Supplement**.
 
-                     
-        **Nutrient Guidelines**
-        - Recommended nutrient levels used by this calculator are based on the FEDIAF Nutritional Guidelines for Complete and Complementary Pet Food for Cats and Dogs (2025), Table III-3b.
+        ---
 
-        - The calculator uses the recommended nutrient allowances for adult dogs expressed per 1000 kcal of metabolizable energy, based on an assumed energy requirement of 95 kcal/kg body weight.
-                    
-        - These guidelines apply to healthy adult dogs and are not intended for puppies, pregnant or lactating dogs, or dogs with medical conditions.
+        **More details**
+        - Additional information about data sources, calculations, and methodology is available at the bottom of the page.
 
-        - Minimum and maximum nutrient values displayed in the calculator are scaled according to the total caloric content of the recipe.
-                    
-        - The nutrient guideline dataset used by this calculator is derived from the FEDIAF recommendations and is available for download in JSON format below.
         """)
-        
-        with open("data/guidelines.json", "rb") as file:
-            st.download_button(
-                label="Download nutrient guideline dataset (JSON)",
-                data=file,
-                file_name="guidelines.json",
-                mime="application/json"
-            )
     
-        st.markdown("""                                
-        **Overall Nutrient Target Coverage**
-                    
-        The overall nutrient target coverage represents the percentage of nutrient targets that fall within recommended ranges for the current recipe. Each nutrient is evaluated against minimum and, where applicable, maximum guideline values scaled to the recipe’s total energy. A nutrient is counted as “met” only if it is within this acceptable range. Values below the minimum or above the maximum are considered unmet. The final percentage reflects the proportion of all evaluated nutrients that meet these criteria.   
+    # top action tabs
+    tab1, tab2, tab3 = st.tabs([
+        "Add Ingredient",
+        "Add Supplement",
+        "Ingredient Suggestions"
+    ])
 
-                    
-        **Ingredient Recommendation Method**
-                    
-        The ingredient recommendation tool simulates adding candidate ingredients in practical amounts and recalculates overall nutrient target coverage for each option. Candidates are scored based on how much they improve coverage. For each ingredient, the best-performing tested amount is kept, and the top suggestions are shown along with the nutrients that improve the most. Recommendations are limited to the tested ingredients and amounts and may not identify all possible improvements.
+    with tab1:
+        #add ingredients form-----
+        st.subheader("Add Ingredient")
 
-                    
-        **Assumptions and limitations**
-        - Nutrient values are derived from food composition databases and do not account for nutrient losses during cooking, processing, or storage.
+        # st.caption("Tip: Type to search ingredients")
 
-        - The ingredient list in this calculator is limited and does not represent a complete food composition database.
+        ingredient_keys = list(ingredients.keys())
 
-        - Meeting recommended nutrient targets in this calculator does not guarantee that a recipe is fully balanced or appropriate for all dogs.
-                    
-
-        **Progress bar interpretation**
-        - Nutrient progress bars represent progress toward the recommended minimum nutrient requirement. The bar reaches 100% when the minimum requirement is met.
-                    
-        - If a nutrient has a defined maximum value, the percentage may exceed 100% only when the amount surpasses that maximum.
-            
-        - When no maximum value is defined, the progress bar remains capped at 100% once the minimum requirement is met.
-                    
-
-        **Missing nutrient data**
-        - A `*` next to a nutrient indicates that one or more ingredients in the recipe have missing source data for that nutrient.
-                    
-        - Totals may therefore be underestimated.
-                    
-        - Supplements labeled “(supplement, averaged)” intentionally include only selected primary nutrients, while iodized salt contains only a limited set of reported nutrients from source data. These ingredients do not trigger missing-data warnings for nutrients that were not recorded.
-
-        """)                   
-        st.warning(
-            "This calculator is intended for educational purposes and should not replace veterinary nutritional guidance."
-        )
-        st.markdown("""          
-
-        **References**
-        - Canadian Nutrient File – Health Canada  
-        https://food-nutrition.canada.ca/cnf-fce/
-
-        - FAO/INFOODS. Guidelines for Food Composition Data Management and Use  
-        https://www.fao.org/infoods/infoods/standards-guidelines/en/
-
-        - FEDIAF. Nutritional Guidelines for Complete and Complementary Pet Food for Cats and Dogs (2025)  
-        https://fediaf.org/self-regulation/nutrition/
-
-        - USDA FoodData Central  
-        https://fdc.nal.usda.gov/
-        """)
-
-    #add ingredients form-----
-    st.subheader("Add Ingredient")
-
-    st.caption("Tip: Type to search ingredients")
-
-    ingredient_keys = list(ingredients.keys())
-
-    with st.form("add_ingredient_form"):
-        selected_ingredient = st.selectbox(
-            "Ingredient",
-            options=ingredient_keys,
-            format_func=lambda key: ingredients[key]["name"]
-        )
-
-        grams = st.number_input(
-            "Amount (grams)",
-            min_value=0.0,
-            value=100.0,
-            step=10.0
-        )
-
-        submitted = st.form_submit_button("Add to recipe")
-
-    if submitted:
-        if grams <= 0:
-            st.warning("Please enter an amount greater than 0 grams.")
-        else:
-            add_ingredient_to_recipe(selected_ingredient, grams)
-            st.success(f"Added {ingredients[selected_ingredient]['name']} ({grams:.1f} g) to recipe.")
-
-
-
-    # --- Custom Ingredient Modal ---
-
-    @st.dialog("Add Custom Supplement")
-    def show_custom_ingredient_dialog():
-
-        mode_options = {
-            "amount": "Enter exact nutrient amounts",
-            "percent": "Convert label percentages"
-        }
-
-        entry_mode = st.radio(
-            "How do you want to enter nutrients?",
-            options=list(mode_options.keys()),
-            format_func=lambda key: mode_options[key],
-            horizontal=True,
-            help="Use 'exact amounts' if the label lists nutrients in mg, g, or IU. Use 'percentages' if the label lists nutrients as % and you know the serving weight."
-        )
-
-        st.markdown("---")
-
-        if entry_mode == "amount":
-
-            custom_name = st.text_input(
-                "Supplement name",
-                placeholder="Eggshell Powder"
+        with st.form("add_ingredient_form"):
+            selected_ingredient = st.selectbox(
+                "Ingredient",
+                options=ingredient_keys,
+                format_func=lambda key: ingredients[key]["name"]
             )
 
-            recipe_grams = st.number_input(
-                "Serving weight in grams (optional)",
+            grams = st.number_input(
+                "Amount (grams)",
                 min_value=0.0,
-                value=0.0,
-                step=0.1
+                value=100.0,
+                step=10.0
             )
 
-            serving_label = st.text_input(
-                "Serving description (optional)",
-                placeholder="1 scoop"
-            )
+            submitted = st.form_submit_button("Add to recipe")
 
-            nutrient_options = get_calculator_nutrient_options()
-            nutrient_labels = get_nutrient_labels(ingredients)
-
-            st.markdown("**Nutrients**")
-
-            header1, header2, header3, header4 = st.columns([3, 2, 2, 1])
-            with header1:
-                st.caption("Nutrient (type to search)")
-            with header2:
-                st.caption("Amount")
-            with header3:
-                st.caption("Unit")
-            with header4:
-                st.caption("")
-
-            for i, row in enumerate(st.session_state.custom_nutrient_rows):
-                col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
-
-                with col1:
-                    # get all currently selected nutrients
-                    selected_nutrients = [
-                        r["nutrient"] for r in st.session_state.custom_nutrient_rows
-                    ]
-
-                    # allow current row to keep its value
-                    available_nutrients = [
-                        n for n in nutrient_options
-                        if n not in selected_nutrients or n == row["nutrient"]
-                    ]
-
-                    selected_nutrient = st.selectbox(
-                        "Nutrient",
-                        options=available_nutrients,
-                        format_func=lambda key: nutrient_labels.get(key, key),
-                        index=available_nutrients.index(row["nutrient"]) if row["nutrient"] in available_nutrients else 0,
-                        key=f"custom_nutrient_{i}",
-                        label_visibility="collapsed"
-                    )
-
-                    st.session_state.custom_nutrient_rows[i]["nutrient"] = selected_nutrient
-
-                    allowed_units = get_supported_units_for_nutrient(selected_nutrient, ingredients)
-
-                    if st.session_state.custom_nutrient_rows[i]["unit"] not in allowed_units:
-                        st.session_state.custom_nutrient_rows[i]["unit"] = allowed_units[0]
-
-                with col2:
-                    amount = st.number_input(
-                        "Amount",
-                        min_value=0.0,
-                        value=float(row["amount"]),
-                        step=0.1,
-                        key=f"custom_amount_{i}",
-                        label_visibility="collapsed"
-                    )
-                    st.session_state.custom_nutrient_rows[i]["amount"] = amount
-
-                with col3:
-
-                    selected_unit = st.selectbox(
-                        "Unit",
-                        options=allowed_units,
-                        index=allowed_units.index(row["unit"]) if row["unit"] in allowed_units else 0,
-                        key=f"custom_unit_{i}",
-                        label_visibility="collapsed"
-                    )
-
-                    st.session_state.custom_nutrient_rows[i]["unit"] = selected_unit
-
-                with col4:
-                    if st.button("✕", key=f"remove_custom_nutrient_{i}"):
-                        remove_custom_nutrient_row(i)
-                        st.rerun()
-
-            next_nutrient = get_next_available_nutrient()
-
-            if next_nutrient is not None:
-                if st.button("+ Add another nutrient", key="add_custom_nutrient_row"):
-                    add_custom_nutrient_row()
-                    st.rerun()
+        if submitted:
+            if grams <= 0:
+                st.warning("Please enter an amount greater than 0 grams.")
             else:
-                st.info("All supported nutrients have already been added.")
+                add_ingredient_to_recipe(selected_ingredient, grams)
+                st.success(f"Added {ingredients[selected_ingredient]['name']} ({grams:.1f} g) to recipe.")
 
-        elif entry_mode == "percent":
 
-            custom_name = st.text_input(
-                "Supplement name",
-                placeholder="Eggshell powder"
+    with tab2:
+        # --- Custom Ingredient Modal ---
+
+        @st.dialog("Add Custom Supplement")
+        def show_custom_ingredient_dialog():
+
+            mode_options = {
+                "amount": "Enter exact nutrient amounts",
+                "percent": "Convert label percentages"
+            }
+
+            entry_mode = st.radio(
+                "How do you want to enter nutrients?",
+                options=list(mode_options.keys()),
+                format_func=lambda key: mode_options[key],
+                horizontal=True,
+                help="Use 'exact amounts' if the label lists nutrients in mg, g, or IU. Use 'percentages' if the label lists nutrients as % and you know the serving weight."
             )
 
-            recipe_grams = st.number_input(
-                "Serving weight in grams",
-                min_value=0.0,
-                value=1.0,
-                step=0.1,
-            )
+            st.markdown("---")
 
-            serving_label = st.text_input(
-                "Serving description (optional)",
-                placeholder="1 scoop"
-            )
+            if entry_mode == "amount":
 
-            all_nutrients = get_calculator_nutrient_options()
-
-            nutrient_options = [
-                n for n in all_nutrients
-                if any(u in ["g", "mg", "mcg", "µg"]
-                    for u in get_supported_units_for_nutrient(n, ingredients))
-            ]
-
-            nutrient_labels = get_nutrient_labels(ingredients)
-
-            st.markdown("**Nutrients listed as percentages**")
-            st.caption("Percent values are converted using: amount = serving weight × (% / 100)")
-
-            header1, header2, header3, header4 = st.columns([3, 2, 2, 1])
-            with header1:
-                st.caption("Nutrient (type to search)")
-            with header2:
-                st.caption("Percent (%)")
-            with header3:
-                st.caption("Converted amount")
-            with header4:
-                st.caption("")
-
-            for i, row in enumerate(st.session_state.custom_percent_rows):
-                col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
-
-                with col1:
-                    selected_nutrients = [
-                        r["nutrient"] for r in st.session_state.custom_percent_rows
-                    ]
-
-                    available_nutrients = [
-                        n for n in nutrient_options
-                        if n not in selected_nutrients or n == row["nutrient"]
-                    ]
-
-                    selected_nutrient = st.selectbox(
-                        "Nutrient",
-                        options=available_nutrients,
-                        format_func=lambda key: nutrient_labels.get(key, key),
-                        index=available_nutrients.index(row["nutrient"]) if row["nutrient"] in available_nutrients else 0,
-                        key=f"custom_percent_nutrient_{i}",
-                        label_visibility="collapsed"
-                    )
-
-                    st.session_state.custom_percent_rows[i]["nutrient"] = selected_nutrient
-
-                with col2:
-                    percent_value = st.number_input(
-                        "Percent",
-                        min_value=0.0,
-                        value=float(row["percent"]),
-                        step=0.1,
-                        key=f"custom_percent_value_{i}",
-                        label_visibility="collapsed"
-                    )
-                    st.session_state.custom_percent_rows[i]["percent"] = percent_value
-
-                with col3:
-                    if recipe_grams > 0:
-                        converted_amount, converted_unit = convert_percent_to_amount_unit(
-                            percent_value=percent_value,
-                            serving_grams=recipe_grams,
-                            nutrient_key=selected_nutrient
-                        )
-                        st.write(f"{converted_amount:.3f} {converted_unit}")
-                    else:
-                        st.write("—")
-
-                with col4:
-                    if st.button("✕", key=f"remove_custom_percent_{i}"):
-                        remove_custom_percent_row(i)
-                        st.rerun()
-
-            next_percent_nutrient = get_next_available_percent_nutrient()
-
-            if next_percent_nutrient is not None:
-                if st.button("+ Add another nutrient", key="add_custom_percent_row"):
-                    add_custom_percent_row()
-                    st.rerun()
-            else:
-                st.info("All supported nutrients have already been added.")
-
-        st.markdown("---")
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-            if st.button("Cancel", key="cancel_custom_supplement"):
-                reset_custom_nutrient_rows()
-                reset_custom_percent_rows()
-                st.session_state.show_custom_dialog = False
-                st.rerun()
-
-        with col2:
-            if st.button("Add Supplement", type="primary", key="submit_custom_supplement"):
-
-                if not custom_name.strip():
-                    st.warning("Please enter a supplement name.")
-                    return
-
-                if entry_mode == "percent" and recipe_grams <= 0:
-                    st.warning("Serving weight is required for percent mode.")
-                    return
-
-                if entry_mode == "amount":
-                    valid_rows = [
-                        row for row in st.session_state.custom_nutrient_rows
-                        if float(row["amount"]) > 0
-                    ]
-
-                elif entry_mode == "percent":
-                    valid_rows = []
-
-                    for row in st.session_state.custom_percent_rows:
-                        percent_value = float(row["percent"])
-                        if percent_value <= 0 or recipe_grams <= 0:
-                            continue
-
-                        converted_amount, converted_unit = convert_percent_to_amount_unit(
-                            percent_value=percent_value,
-                            serving_grams=recipe_grams,
-                            nutrient_key=row["nutrient"]
-                        )
-
-                        valid_rows.append(
-                            {
-                                "nutrient": row["nutrient"],
-                                "amount": converted_amount,
-                                "unit": converted_unit,
-                            }
-                        )
-
-                if not valid_rows:
-                    st.warning("Please enter at least one nutrient amount greater than 0.")
-                    return
-
-                try:
-                    custom_key, custom_ingredient = build_custom_ingredient(
-                        name=custom_name,
-                        serving_label=serving_label,
-                        recipe_grams=recipe_grams,
-                        nutrient_rows=valid_rows,
-                        ingredients=ingredients,
-                        custom_index=len(st.session_state.custom_ingredients) + 1,
-                    )
-                except ValueError as e:
-                    st.warning(str(e))
-                    return
-
-                st.session_state.custom_ingredients[custom_key] = custom_ingredient
-
-                grams_to_add = recipe_grams if recipe_grams > 0 else 100.0
-                display_grams = recipe_grams if recipe_grams > 0 else None
-
-                if entry_mode == "amount":
-                    st.session_state["pending_custom_ingredient_to_add"] = {
-                        "ingredient_key": custom_key,
-                        "grams": grams_to_add,
-                        "display_grams": display_grams
-                    }
-                elif entry_mode == "percent" and recipe_grams > 0:
-                    st.session_state["pending_custom_ingredient_to_add"] = {
-                        "ingredient_key": custom_key,
-                        "grams": recipe_grams,
-                        "display_grams": recipe_grams
-                    }
-
-                reset_custom_nutrient_rows()
-                reset_custom_percent_rows()
-                st.session_state.show_custom_dialog = False
-                st.rerun()
-
-    #the supplement button
-    st.subheader("Add Custom Supplement")
-
-    st.write("Add vitamins, minerals, or other supplements not listed in the ingredient database.")
-
-    if st.button("Add Supplement"):
-        st.session_state.show_custom_dialog = True
-        st.rerun()
-
-    if st.session_state.show_custom_dialog:
-        show_custom_ingredient_dialog()
-
-
-
-
-    #recommender tool-----
-    st.subheader("Ingredient Suggestions")
-
-    st.write(
-        "Generate ingredient recommendations based on the current nutrient gaps in the recipe."
-    )
-
-    if len(st.session_state.recipe) == 0:
-        st.info("Add at least one ingredient to generate recommendations.")
-    else:
-        if st.button("Suggest Ingredients"):
-            st.session_state.ingredient_suggestions = get_top_ingredient_suggestions(
-                recipe=st.session_state.recipe,
-                ingredients=all_ingredients,
-                guidelines=guidelines,
-                top_n=3,
-                exclude_existing=False
-            )
-            st.session_state.suggestions_generated = True
-
-        if st.session_state.ingredient_suggestions:
-            for i, suggestion in enumerate(st.session_state.ingredient_suggestions):
-                st.markdown(
-                    f"""
-    **{suggestion["ingredient_name"]} — {suggestion["grams"]} g**  
-    {suggestion["justification"]}  
-    Overall nutrient target coverage: {suggestion["before_percent"]:.0f}% → {suggestion["after_percent"]:.0f}% (+{suggestion["delta_percent"]:.0f}%)
-    """
+                custom_name = st.text_input(
+                    "Supplement name",
+                    placeholder="Eggshell Powder"
                 )
 
-                if st.button(
-                    f'Add {suggestion["ingredient_name"]} ({suggestion["grams"]} g)',
-                    key=f"add_suggested_{i}"
-                ):
-                    add_ingredient_to_recipe(
-                        suggestion["ingredient_key"],
-                        suggestion["grams"]
-                    )
-                    st.success(
-                        f'Added {suggestion["ingredient_name"]} ({suggestion["grams"]} g) to recipe.'
-                    )
-                    st.session_state.ingredient_suggestions = []
-                    st.session_state.suggestions_generated = False
+                recipe_grams = st.number_input(
+                    "Serving weight in grams (optional)",
+                    min_value=0.0,
+                    value=0.0,
+                    step=0.1
+                )
+
+                serving_label = st.text_input(
+                    "Serving description (optional)",
+                    placeholder="1 scoop"
+                )
+
+                nutrient_options = get_calculator_nutrient_options()
+                nutrient_labels = get_nutrient_labels(ingredients)
+
+                st.markdown("**Nutrients**")
+
+                header1, header2, header3, header4 = st.columns([3, 2, 2, 1])
+                with header1:
+                    st.caption("Nutrient (type to search)")
+                with header2:
+                    st.caption("Amount")
+                with header3:
+                    st.caption("Unit")
+                with header4:
+                    st.caption("")
+
+                for i, row in enumerate(st.session_state.custom_nutrient_rows):
+                    col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
+
+                    with col1:
+                        # get all currently selected nutrients
+                        selected_nutrients = [
+                            r["nutrient"] for r in st.session_state.custom_nutrient_rows
+                        ]
+
+                        # allow current row to keep its value
+                        available_nutrients = [
+                            n for n in nutrient_options
+                            if n not in selected_nutrients or n == row["nutrient"]
+                        ]
+
+                        selected_nutrient = st.selectbox(
+                            "Nutrient",
+                            options=available_nutrients,
+                            format_func=lambda key: nutrient_labels.get(key, key),
+                            index=available_nutrients.index(row["nutrient"]) if row["nutrient"] in available_nutrients else 0,
+                            key=f"custom_nutrient_{i}",
+                            label_visibility="collapsed"
+                        )
+
+                        st.session_state.custom_nutrient_rows[i]["nutrient"] = selected_nutrient
+
+                        allowed_units = get_supported_units_for_nutrient(selected_nutrient, ingredients)
+
+                        if st.session_state.custom_nutrient_rows[i]["unit"] not in allowed_units:
+                            st.session_state.custom_nutrient_rows[i]["unit"] = allowed_units[0]
+
+                    with col2:
+                        amount = st.number_input(
+                            "Amount",
+                            min_value=0.0,
+                            value=float(row["amount"]),
+                            step=0.1,
+                            key=f"custom_amount_{i}",
+                            label_visibility="collapsed"
+                        )
+                        st.session_state.custom_nutrient_rows[i]["amount"] = amount
+
+                    with col3:
+
+                        selected_unit = st.selectbox(
+                            "Unit",
+                            options=allowed_units,
+                            index=allowed_units.index(row["unit"]) if row["unit"] in allowed_units else 0,
+                            key=f"custom_unit_{i}",
+                            label_visibility="collapsed"
+                        )
+
+                        st.session_state.custom_nutrient_rows[i]["unit"] = selected_unit
+
+                    with col4:
+                        if st.button("✕", key=f"remove_custom_nutrient_{i}"):
+                            remove_custom_nutrient_row(i)
+                            st.rerun()
+
+                next_nutrient = get_next_available_nutrient()
+
+                if next_nutrient is not None:
+                    if st.button("+ Add another nutrient", key="add_custom_nutrient_row"):
+                        add_custom_nutrient_row()
+                        st.rerun()
+                else:
+                    st.info("All supported nutrients have already been added.")
+
+            elif entry_mode == "percent":
+
+                custom_name = st.text_input(
+                    "Supplement name",
+                    placeholder="Eggshell powder"
+                )
+
+                recipe_grams = st.number_input(
+                    "Serving weight in grams",
+                    min_value=0.0,
+                    value=1.0,
+                    step=0.1,
+                )
+
+                serving_label = st.text_input(
+                    "Serving description (optional)",
+                    placeholder="1 scoop"
+                )
+
+                all_nutrients = get_calculator_nutrient_options()
+
+                nutrient_options = [
+                    n for n in all_nutrients
+                    if any(u in ["g", "mg", "mcg", "µg"]
+                        for u in get_supported_units_for_nutrient(n, ingredients))
+                ]
+
+                nutrient_labels = get_nutrient_labels(ingredients)
+
+                st.markdown("**Nutrients listed as percentages**")
+                # st.caption("Percent values are converted using: amount = serving weight × (% / 100)")
+
+                header1, header2, header3, header4 = st.columns([3, 2, 2, 1])
+                with header1:
+                    st.caption("Nutrient (type to search)")
+                with header2:
+                    st.caption("Percent (%)")
+                with header3:
+                    st.caption("Converted amount")
+                with header4:
+                    st.caption("")
+
+                for i, row in enumerate(st.session_state.custom_percent_rows):
+                    col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
+
+                    with col1:
+                        selected_nutrients = [
+                            r["nutrient"] for r in st.session_state.custom_percent_rows
+                        ]
+
+                        available_nutrients = [
+                            n for n in nutrient_options
+                            if n not in selected_nutrients or n == row["nutrient"]
+                        ]
+
+                        selected_nutrient = st.selectbox(
+                            "Nutrient",
+                            options=available_nutrients,
+                            format_func=lambda key: nutrient_labels.get(key, key),
+                            index=available_nutrients.index(row["nutrient"]) if row["nutrient"] in available_nutrients else 0,
+                            key=f"custom_percent_nutrient_{i}",
+                            label_visibility="collapsed"
+                        )
+
+                        st.session_state.custom_percent_rows[i]["nutrient"] = selected_nutrient
+
+                    with col2:
+                        percent_value = st.number_input(
+                            "Percent",
+                            min_value=0.0,
+                            value=float(row["percent"]),
+                            step=0.1,
+                            key=f"custom_percent_value_{i}",
+                            label_visibility="collapsed"
+                        )
+                        st.session_state.custom_percent_rows[i]["percent"] = percent_value
+
+                    with col3:
+                        if recipe_grams > 0:
+                            converted_amount, converted_unit = convert_percent_to_amount_unit(
+                                percent_value=percent_value,
+                                serving_grams=recipe_grams,
+                                nutrient_key=selected_nutrient
+                            )
+                            st.write(f"{converted_amount:.3f} {converted_unit}")
+                        else:
+                            st.write("—")
+
+                    with col4:
+                        if st.button("✕", key=f"remove_custom_percent_{i}"):
+                            remove_custom_percent_row(i)
+                            st.rerun()
+
+                next_percent_nutrient = get_next_available_percent_nutrient()
+
+                if next_percent_nutrient is not None:
+                    if st.button("+ Add another nutrient", key="add_custom_percent_row"):
+                        add_custom_percent_row()
+                        st.rerun()
+                else:
+                    st.info("All supported nutrients have already been added.")
+
+            st.markdown("---")
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                if st.button("Cancel", key="cancel_custom_supplement"):
+                    reset_custom_nutrient_rows()
+                    reset_custom_percent_rows()
+                    st.session_state.show_custom_dialog = False
                     st.rerun()
 
-        elif st.session_state.suggestions_generated:
-            st.info(
-                "No additional ingredient recommendations were identified. The recipe may already meet nutrient targets, or further additions could create imbalances."
-            )
+            with col2:
+                if st.button("Add Supplement", type="primary", key="submit_custom_supplement"):
+
+                    if not custom_name.strip():
+                        st.warning("Please enter a supplement name.")
+                        return
+
+                    if entry_mode == "percent" and recipe_grams <= 0:
+                        st.warning("Serving weight is required for percent mode.")
+                        return
+
+                    if entry_mode == "amount":
+                        valid_rows = [
+                            row for row in st.session_state.custom_nutrient_rows
+                            if float(row["amount"]) > 0
+                        ]
+
+                    elif entry_mode == "percent":
+                        valid_rows = []
+
+                        for row in st.session_state.custom_percent_rows:
+                            percent_value = float(row["percent"])
+                            if percent_value <= 0 or recipe_grams <= 0:
+                                continue
+
+                            converted_amount, converted_unit = convert_percent_to_amount_unit(
+                                percent_value=percent_value,
+                                serving_grams=recipe_grams,
+                                nutrient_key=row["nutrient"]
+                            )
+
+                            valid_rows.append(
+                                {
+                                    "nutrient": row["nutrient"],
+                                    "amount": converted_amount,
+                                    "unit": converted_unit,
+                                }
+                            )
+
+                    if not valid_rows:
+                        st.warning("Please enter at least one nutrient amount greater than 0.")
+                        return
+
+                    try:
+                        custom_key, custom_ingredient = build_custom_ingredient(
+                            name=custom_name,
+                            serving_label=serving_label,
+                            recipe_grams=recipe_grams,
+                            nutrient_rows=valid_rows,
+                            ingredients=ingredients,
+                            custom_index=len(st.session_state.custom_ingredients) + 1,
+                        )
+                    except ValueError as e:
+                        st.warning(str(e))
+                        return
+
+                    st.session_state.custom_ingredients[custom_key] = custom_ingredient
+
+                    grams_to_add = recipe_grams if recipe_grams > 0 else 100.0
+                    display_grams = recipe_grams if recipe_grams > 0 else None
+
+                    if entry_mode == "amount":
+                        st.session_state["pending_custom_ingredient_to_add"] = {
+                            "ingredient_key": custom_key,
+                            "grams": grams_to_add,
+                            "display_grams": display_grams
+                        }
+                    elif entry_mode == "percent" and recipe_grams > 0:
+                        st.session_state["pending_custom_ingredient_to_add"] = {
+                            "ingredient_key": custom_key,
+                            "grams": recipe_grams,
+                            "display_grams": recipe_grams
+                        }
+
+                    reset_custom_nutrient_rows()
+                    reset_custom_percent_rows()
+                    st.session_state.show_custom_dialog = False
+                    st.rerun()
+
+        #the supplement button
+        st.subheader("Add Custom Supplement")
+
+        st.write("Add vitamins, minerals, or other supplements not listed in the ingredient database.")
+
+        if st.button("Add Supplement"):
+            st.session_state.show_custom_dialog = True
+            st.rerun()
+
+        if st.session_state.show_custom_dialog:
+            show_custom_ingredient_dialog()
+
+
+
+    with tab3:
+        #recommender tool-----
+        st.subheader("Ingredient Suggestions")
+
+        st.write(
+            "Generate ingredient recommendations based on the current nutrient gaps in the recipe."
+        )
+
+        if len(st.session_state.recipe) == 0:
+            st.info("Add at least one ingredient to generate recommendations.")
+        else:
+            if st.button("Suggest Ingredients"):
+                st.session_state.ingredient_suggestions = get_top_ingredient_suggestions(
+                    recipe=st.session_state.recipe,
+                    ingredients=all_ingredients,
+                    guidelines=guidelines,
+                    top_n=3,
+                    exclude_existing=False
+                )
+                st.session_state.suggestions_generated = True
+
+            if st.session_state.ingredient_suggestions:
+                for i, suggestion in enumerate(st.session_state.ingredient_suggestions):
+                    st.markdown(
+                        f"""
+        **{suggestion["ingredient_name"]} — {suggestion["grams"]} g**  
+        {suggestion["justification"]}  
+        Overall nutrient target coverage: {suggestion["before_percent"]:.0f}% → {suggestion["after_percent"]:.0f}% (+{suggestion["delta_percent"]:.0f}%)
+        """
+                    )
+
+                    if st.button(
+                        f'Add {suggestion["ingredient_name"]} ({suggestion["grams"]} g)',
+                        key=f"add_suggested_{i}"
+                    ):
+                        add_ingredient_to_recipe(
+                            suggestion["ingredient_key"],
+                            suggestion["grams"]
+                        )
+                        st.success(
+                            f'Added {suggestion["ingredient_name"]} ({suggestion["grams"]} g) to recipe.'
+                        )
+                        st.session_state.ingredient_suggestions = []
+                        st.session_state.suggestions_generated = False
+                        st.rerun()
+
+            elif st.session_state.suggestions_generated:
+                st.info(
+                    "No additional ingredient recommendations were identified. The recipe may already meet nutrient targets, or further additions could create imbalances."
+                )
 
     total_calories = 0.0
     #current recipe-----
@@ -1101,6 +997,36 @@ with center:
             )
 
         #remove ingredients section-----
+        # st.write("Manage ingredients:")
+
+        # for i, item in enumerate(st.session_state.recipe):
+        #     col1, col2, col3 = st.columns([5, 2, 2])
+
+        #     with col1:
+        #         st.write(item["ingredient_name"])
+
+        #     with col2:
+        #         if item.get("display_grams") is None:
+        #             st.write("N/A")
+        #         else:
+        #             new_amount = st.number_input(
+        #                 "Amount (g)",
+        #                 min_value=0.0,
+        #                 value=float(item["display_grams"]),
+        #                 step=1.0,
+        #                 key=f"edit_amount_{i}",
+        #                 label_visibility="collapsed"
+        #             )
+
+        #             if new_amount != item["display_grams"]:
+        #                 st.session_state.recipe[i]["display_grams"] = new_amount
+        #                 st.session_state.recipe[i]["grams"] = new_amount
+        #                 st.rerun()
+
+        #     with col3:
+        #         if st.button("Remove", key=f"remove_{i}"):
+        #             remove_ingredient_from_recipe(i)
+        #             st.rerun()
         st.write("Remove ingredients:")
 
         for i, item in enumerate(st.session_state.recipe):
@@ -1113,19 +1039,7 @@ with center:
                 if item.get("display_grams") is None:
                     st.write("N/A")
                 else:
-                    new_amount = st.number_input(
-                        "Amount (g)",
-                        min_value=0.0,
-                        value=float(item["display_grams"]),
-                        step=1.0,
-                        key=f"edit_amount_{i}",
-                        label_visibility="collapsed"
-                    )
-
-                    if new_amount != item["display_grams"]:
-                        st.session_state.recipe[i]["display_grams"] = new_amount
-                        st.session_state.recipe[i]["grams"] = new_amount
-                        st.rerun()
+                    st.write(f"{item['display_grams']:.1f} g")
 
             with col3:
                 if st.button("Remove", key=f"remove_{i}"):
@@ -1134,9 +1048,9 @@ with center:
 
     #mobile version toggle
     compact_view = st.toggle(
-        "Compact view (better for phones/tablets)",
+        "Mobile view",
         value=False,
-        help="Use a stacked nutrient layout optimized for smaller screens."
+        # help="Use a stacked nutrient layout optimized for smaller screens."
     )
 
     #PROTEIN
@@ -1494,10 +1408,145 @@ with center:
 
     st.markdown("---")
 
-    st.markdown(
-        "Built by Jessie Allen • github.com/jallen244"
-    )
+        #dropdown-----
+    with st.expander("Data Sources & Methodology"):
+        st.markdown("""
+
+    *For educational use only. This tool does not replace veterinary advice and is not intended for puppies, pregnant dogs, or medically managed diets.*
+                        
+    **Data sources**
+    - The Canadian Nutrient File (CNF) is the primary source of nutrient data for ingredients in this calculator.
+                    
+    - Iodized salt uses nutrient values from USDA FoodData Central because iodine values are not reported for salt in CNF.
+                    
+    - Certain ingredients labeled “(supplement, averaged)” were added manually. Additional details about these ingredients are provided in the Supplements section below.
+                    
+    - The ingredient nutrient dataset used by this calculator is available for download in JSON format below.
+    """)
+        
+        with open("data/ingredients.json", "rb") as file:
+            st.download_button(
+                label="Download ingredient nutrient dataset (JSON)",
+                data=file,
+                file_name="ingredients.json",
+                mime="application/json"
+            )
+    
+        st.markdown("""
+    
+    **Predefined supplements (included in dataset)**
+    - Four predefined supplements were included in the calculator and are labeled "(supplement, averaged)". These include: eggshell powder, fish oil, bone meal, and calcium carbonate.
+    
+    - Nutrient values for these were calculated as averages from several commercial supplement products. The products used for these calculations are documented in the downloadable spreadsheet below.
+    
+    - Only the primary nutrients typically supplied by each supplement were recorded (e.g., calcium for eggshell powder and calcium carbonate; calcium and phosphorus for bone meal; calories, total fat, EPA, and DHA for fish oil). Trace nutrients that may be present in small amounts were not recorded.
+    """)
+        
+        with open("data/supplement_average_sources.xlsx", "rb") as file:
+            st.download_button(
+                label="Download supplement average source data",
+                data=file,
+                file_name="supplement_average_sources.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+    
+        st.markdown("""
+                    
+        **Custom supplements (user-entered)**
+        - Users can create custom supplements by entering nutrient amounts directly or by converting label percentages using a specified serving weight.
+
+        - Only the nutrients entered by the user are included in calculations. Nutrients not provided are treated as unknown and are not counted toward totals or recommendations.
+
+        - Percentage values are interpreted as percent by weight of the product using: amount = serving weight × (% / 100)
+
+        - Users are responsible for correctly interpreting supplement labels, including units, serving sizes, and percentage values.
+                    
+
+        **Iodine and Chloride**
+        - The Canadian Nutrient File (CNF) does not report iodine or chloride values for any of the foods included in this calculator.
+
+        - Iodine levels in foods can vary widely depending on environmental factors such as soil and water iodine content.
+
+        - Chloride is rarely reported in food composition databases because it is typically present as sodium chloride (salt) and is therefore often inferred from sodium rather than measured directly.
+
+        - In this calculator, iodine and chloride are supplied through iodized salt, which provides a consistent and measurable source of these nutrients. Table salt is listed in the Canadian Nutrient File (CNF), but iodine values are not reported for it. Therefore, nutrient values for iodized salt were obtained from USDA FoodData Central.
+
+        - Chloride for iodized salt was calculated from sodium assuming sodium chloride composition (Cl = Na × 1.54).
+
+                     
+        **Nutrient Guidelines**
+        - Recommended nutrient levels used by this calculator are based on the FEDIAF Nutritional Guidelines for Complete and Complementary Pet Food for Cats and Dogs (2025), Table III-3b.
+
+        - The calculator uses the recommended nutrient allowances for adult dogs expressed per 1000 kcal of metabolizable energy, based on an assumed energy requirement of 95 kcal/kg body weight.
+                    
+        - These guidelines apply to healthy adult dogs and are not intended for puppies, pregnant or lactating dogs, or dogs with medical conditions.
+
+        - Minimum and maximum nutrient values displayed in the calculator are scaled according to the total caloric content of the recipe.
+                    
+        - The nutrient guideline dataset used by this calculator is derived from the FEDIAF recommendations and is available for download in JSON format below.
+        """)
+        
+        with open("data/guidelines.json", "rb") as file:
+            st.download_button(
+                label="Download nutrient guideline dataset (JSON)",
+                data=file,
+                file_name="guidelines.json",
+                mime="application/json"
+            )
+    
+        st.markdown("""                                
+        **Overall Nutrient Target Coverage**
+                    
+        The overall nutrient target coverage represents the percentage of nutrient targets that fall within recommended ranges for the current recipe. Each nutrient is evaluated against minimum and, where applicable, maximum guideline values scaled to the recipe’s total energy. A nutrient is counted as “met” only if it is within this acceptable range. Values below the minimum or above the maximum are considered unmet. The final percentage reflects the proportion of all evaluated nutrients that meet these criteria.   
+
+                    
+        **Ingredient Recommendation Method**
+                    
+        The ingredient recommendation tool simulates adding candidate ingredients in practical amounts and recalculates overall nutrient target coverage for each option. Candidates are scored based on how much they improve coverage. For each ingredient, the best-performing tested amount is kept, and the top suggestions are shown along with the nutrients that improve the most. Recommendations are limited to the tested ingredients and amounts and may not identify all possible improvements.
+
+                    
+        **Assumptions and limitations**
+        - Nutrient values are derived from food composition databases and do not account for nutrient losses during cooking, processing, or storage.
+
+        - The ingredient list in this calculator is limited and does not represent a complete food composition database.
+
+        - Meeting recommended nutrient targets in this calculator does not guarantee that a recipe is fully balanced or appropriate for all dogs.
+                    
+
+        **Progress bar interpretation**
+        - Nutrient progress bars represent progress toward the recommended minimum nutrient requirement. The bar reaches 100% when the minimum requirement is met.
+                    
+        - If a nutrient has a defined maximum value, the percentage may exceed 100% only when the amount surpasses that maximum.
+            
+        - When no maximum value is defined, the progress bar remains capped at 100% once the minimum requirement is met.
+                    
+
+        **Missing nutrient data**
+        - A `*` next to a nutrient indicates that one or more ingredients in the recipe have missing source data for that nutrient.
+                    
+        - Totals may therefore be underestimated.
+                    
+        - Supplements labeled “(supplement, averaged)” intentionally include only selected primary nutrients, while iodized salt contains only a limited set of reported nutrients from source data. These ingredients do not trigger missing-data warnings for nutrients that were not recorded.
+         
+
+        **References**
+        - Canadian Nutrient File – Health Canada  
+        https://food-nutrition.canada.ca/cnf-fce/
+
+        - FAO/INFOODS. Guidelines for Food Composition Data Management and Use  
+        https://www.fao.org/infoods/infoods/standards-guidelines/en/
+
+        - FEDIAF. Nutritional Guidelines for Complete and Complementary Pet Food for Cats and Dogs (2025)  
+        https://fediaf.org/self-regulation/nutrition/
+
+        - USDA FoodData Central  
+        https://fdc.nal.usda.gov/
+        """)
+
+    # st.markdown(
+    #     "Built by Jessie Allen • github.com/jallen244"
+    # )
 
     st.markdown(
-        "Have feedback or suggestions? [Submit an issue on GitHub](https://github.com/jallen244/dog-food-calculator/issues)"
+        "Have feedback or suggestions? [Submit an issue on GitHub](https://github.com/jallen244/dog-food-calculator/issues) or email [jallen.apps@gmail.com](mailto:jallen.apps@gmail.com)."
     )
