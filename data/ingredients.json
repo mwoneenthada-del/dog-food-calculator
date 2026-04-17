@@ -3858,7 +3858,367 @@
       "vitamin_k": { "value": 5.4, "unit": "µg" }
     }
   }
+[
+{
+"name": "Chicken, cooked, meat and skin",
+"category": "protein",
+"nutrients": {
+"energy_kcal": 197,
+"protein_g": 29.8,
+"fat_g": 7.8,
+"carbs_g": 0,
 
+"calcium_mg": 14,
+"phosphorus_mg": 214,
+"potassium_mg": 245,
+"sodium_mg": 71,
+"magnesium_mg": 23,
+
+"iron_mg": 1.07,
+"zinc_mg": 1.02,
+"copper_mg": 0.05,
+"manganese_mg": 0.02,
+"selenium_ug": 24.7,
+
+"vitamin_a_mcg": 13,
+"vitamin_d_iu": 7,
+"vitamin_e_mg": 0.27,
+"vitamin_k_ug": 2.4,
+"vitamin_c_mg": 0,
+
+"thiamin_mg": 0.07,
+"riboflavin_mg": 0.15,
+"niacin_mg": 13.7,
+"vitamin_b6_mg": 0.6,
+"folate_ug": 4,
+"vitamin_b12_ug": 0.3
+}
+},
+
+{
+"name": "Rice, white, cooked",
+"category": "carbohydrate",
+"nutrients": {
+"energy_kcal": 130,
+"protein_g": 2.7,
+"fat_g": 0.3,
+"carbs_g": 28.2,
+
+"calcium_mg": 10,
+"phosphorus_mg": 43,
+"potassium_mg": 35,
+"sodium_mg": 1,
+"magnesium_mg": 12,
+
+"iron_mg": 0.2,
+"zinc_mg": 0.4,
+"copper_mg": 0.07,
+"manganese_mg": 0.7,
+"selenium_ug": 7.5,
+
+"vitamin_a_mcg": 0,
+"vitamin_d_iu": 0,
+"vitamin_e_mg": 0.04,
+"vitamin_k_ug": 0.1,
+"vitamin_c_mg": 0,
+
+"thiamin_mg": 0.02,
+"riboflavin_mg": 0.01,
+"niacin_mg": 0.4,
+"vitamin_b6_mg": 0.1,
+"folate_ug": 8,
+"vitamin_b12_ug": 0
+}
+},
+
+{
+"name": "Potato, boiled",
+"category": "carbohydrate",
+"nutrients": {
+"energy_kcal": 87,
+"protein_g": 1.9,
+"fat_g": 0.1,
+"carbs_g": 20.1,
+
+"calcium_mg": 5,
+"phosphorus_mg": 44,
+"potassium_mg": 379,
+"sodium_mg": 6,
+"magnesium_mg": 23,
+
+"iron_mg": 0.3,
+"zinc_mg": 0.3,
+"copper_mg": 0.1,
+"manganese_mg": 0.15,
+"selenium_ug": 0.3,
+
+"vitamin_a_mcg": 0,
+"vitamin_d_iu": 0,
+"vitamin_e_mg": 0.01,
+"vitamin_k_ug": 2,
+"vitamin_c_mg": 13,
+
+"thiamin_mg": 0.08,
+"riboflavin_mg": 0.03,
+"niacin_mg": 1.1,
+"vitamin_b6_mg": 0.3,
+"folate_ug": 10,
+"vitamin_b12_ug": 0
+}
+},
+
+{
+"name": "Sweet potato, boiled",
+"category": "carbohydrate",
+"nutrients": {
+"energy_kcal": 90,
+"protein_g": 2.0,
+"fat_g": 0.1,
+"carbs_g": 21,
+
+"calcium_mg": 30,
+"phosphorus_mg": 47,
+"potassium_mg": 337,
+"sodium_mg": 36,
+"magnesium_mg": 25,
+
+"iron_mg": 0.6,
+"zinc_mg": 0.3,
+"copper_mg": 0.15,
+"manganese_mg": 0.3,
+"selenium_ug": 0.6,
+
+"vitamin_a_mcg": 709,
+"vitamin_d_iu": 0,
+"vitamin_e_mg": 0.3,
+"vitamin_k_ug": 1.8,
+"vitamin_c_mg": 2.4,
+
+"thiamin_mg": 0.1,
+"riboflavin_mg": 0.06,
+"niacin_mg": 1.5,
+"vitamin_b6_mg": 0.2,
+"folate_ug": 11,
+"vitamin_b12_ug": 0
+}
+},
+
+{
+"name": "Pumpkin, cooked",
+"category": "vegetable",
+"nutrients": {
+"energy_kcal": 20,
+"protein_g": 0.7,
+"fat_g": 0.1,
+"carbs_g": 4.9,
+
+"calcium_mg": 26,
+"phosphorus_mg": 44,
+"potassium_mg": 230,
+"sodium_mg": 1,
+"magnesium_mg": 12,
+
+"iron_mg": 0.7,
+"zinc_mg": 0.3,
+"copper_mg": 0.13,
+"manganese_mg": 0.1,
+"selenium_ug": 0.2,
+
+"vitamin_a_mcg": 426,
+"vitamin_d_iu": 0,
+"vitamin_e_mg": 1.0,
+"vitamin_k_ug": 1.1,
+"vitamin_c_mg": 4.7,
+
+"thiamin_mg": 0.05,
+"riboflavin_mg": 0.11,
+"niacin_mg": 0.5,
+"vitamin_b6_mg": 0.06,
+"folate_ug": 9,
+"vitamin_b12_ug": 0
+}
+},
+
+{
+"name": "Carrots, cooked",
+"category": "vegetable",
+"nutrients": {
+"energy_kcal": 35,
+"protein_g": 0.8,
+"fat_g": 0.2,
+"carbs_g": 8.2,
+
+"calcium_mg": 33,
+"phosphorus_mg": 30,
+"potassium_mg": 235,
+"sodium_mg": 58,
+"magnesium_mg": 12,
+
+"iron_mg": 0.3,
+"zinc_mg": 0.2,
+"copper_mg": 0.04,
+"manganese_mg": 0.14,
+"selenium_ug": 0.1,
+
+"vitamin_a_mcg": 852,
+"vitamin_d_iu": 0,
+"vitamin_e_mg": 0.7,
+"vitamin_k_ug": 13,
+"vitamin_c_mg": 3.6,
+
+"thiamin_mg": 0.04,
+"riboflavin_mg": 0.05,
+"niacin_mg": 1.0,
+"vitamin_b6_mg": 0.1,
+"folate_ug": 14,
+"vitamin_b12_ug": 0
+}
+},
+
+{
+"name": "Chicken liver, cooked",
+"category": "organ",
+"nutrients": {
+"energy_kcal": 167,
+"protein_g": 24.5,
+"fat_g": 6.5,
+"carbs_g": 1,
+
+"calcium_mg": 15,
+"phosphorus_mg": 405,
+"potassium_mg": 313,
+"sodium_mg": 71,
+"magnesium_mg": 18,
+
+"iron_mg": 11.6,
+"zinc_mg": 4.0,
+"copper_mg": 0.496,
+"manganese_mg": 0.3,
+"selenium_ug": 82.4,
+
+"vitamin_a_mcg": 3296,
+"vitamin_d_iu": 49,
+"vitamin_e_mg": 0.7,
+"vitamin_k_ug": 3.0,
+"vitamin_c_mg": 27,
+
+"thiamin_mg": 0.3,
+"riboflavin_mg": 1.7,
+"niacin_mg": 9.7,
+"vitamin_b6_mg": 0.9,
+"folate_ug": 560,
+"vitamin_b12_ug": 16.6
+}
+},
+
+{
+"name": "Chicken heart, cooked",
+"category": "organ",
+"nutrients": {
+"energy_kcal": 185,
+"protein_g": 26,
+"fat_g": 8,
+"carbs_g": 0,
+
+"calcium_mg": 12,
+"phosphorus_mg": 212,
+"potassium_mg": 260,
+"sodium_mg": 74,
+"magnesium_mg": 19,
+
+"iron_mg": 6,
+"zinc_mg": 2.5,
+"copper_mg": 0.3,
+"manganese_mg": 0.02,
+"selenium_ug": 39,
+
+"vitamin_a_mcg": 9,
+"vitamin_d_iu": 7,
+"vitamin_e_mg": 0.4,
+"vitamin_k_ug": 1.5,
+"vitamin_c_mg": 0,
+
+"thiamin_mg": 0.15,
+"riboflavin_mg": 0.7,
+"niacin_mg": 5.0,
+"vitamin_b6_mg": 0.3,
+"folate_ug": 7,
+"vitamin_b12_ug": 7.3
+}
+},
+
+{
+"name": "Green peas, cooked",
+"category": "vegetable",
+"nutrients": {
+"energy_kcal": 84,
+"protein_g": 5.4,
+"fat_g": 0.4,
+"carbs_g": 15,
+
+"calcium_mg": 25,
+"phosphorus_mg": 108,
+"potassium_mg": 271,
+"sodium_mg": 3,
+"magnesium_mg": 33,
+
+"iron_mg": 1.5,
+"zinc_mg": 1.2,
+"copper_mg": 0.18,
+"manganese_mg": 0.4,
+"selenium_ug": 1.8,
+
+"vitamin_a_mcg": 38,
+"vitamin_d_iu": 0,
+"vitamin_e_mg": 0.1,
+"vitamin_k_ug": 24,
+"vitamin_c_mg": 14,
+
+"thiamin_mg": 0.27,
+"riboflavin_mg": 0.1,
+"niacin_mg": 2.1,
+"vitamin_b6_mg": 0.17,
+"folate_ug": 65,
+"vitamin_b12_ug": 0
+}
+},
+
+{
+"name": "Sardine oil",
+"category": "fat",
+"nutrients": {
+"energy_kcal": 902,
+"protein_g": 0,
+"fat_g": 100,
+"carbs_g": 0,
+
+"calcium_mg": 0,
+"phosphorus_mg": 0,
+"potassium_mg": 0,
+"sodium_mg": 0,
+"magnesium_mg": 0,
+
+"iron_mg": 0,
+"zinc_mg": 0,
+"copper_mg": 0,
+"manganese_mg": 0,
+"selenium_ug": 0,
+
+"vitamin_a_mcg": 0,
+"vitamin_d_iu": 300,
+"vitamin_e_mg": 5,
+"vitamin_k_ug": 0,
+"vitamin_c_mg": 0,
+
+"thiamin_mg": 0,
+"riboflavin_mg": 0,
+"niacin_mg": 0,
+"vitamin_b6_mg": 0,
+"folate_ug": 0,
+"vitamin_b12_ug": 0
+}
+}
+]
 
 
 
