@@ -13914,7 +13914,7 @@
         }
       }
     },
-    "chicken_cooked_skin": {
+    "chicken_cooked_skin_custom": {
       "name": "Chicken, cooked, meat and skin",
       "basis": "per_100g",
       "energy_kcal": {
@@ -13927,7 +13927,7 @@
           "unit": "g"
         },
         "fat": {
-          "value": 7.8,
+          "value": 5,
           "unit": "g"
         },
         "carbohydrate": {
@@ -13935,35 +13935,31 @@
           "unit": "g"
         },
         "calcium": {
-          "value": 0.014,
+          "value": 0.01,
           "unit": "g"
         },
         "phosphorus": {
-          "value": 0.214,
+          "value": 0.2,
           "unit": "g"
         },
         "potassium": {
-          "value": 0.245,
+          "value": 0.25,
           "unit": "g"
         },
         "sodium": {
-          "value": 0.071,
+          "value": 0.07,
           "unit": "g"
         },
         "magnesium": {
-          "value": 0.023,
+          "value": 0.02,
           "unit": "g"
-        },
-        "iron": {
-          "value": 1.07,
-          "unit": "mg"
-        },
-        "zinc": {
-          "value": 1.02,
-          "unit": "mg"
         },
         "copper": {
           "value": 0.05,
+          "unit": "mg"
+        },
+        "iron": {
+          "value": 1,
           "unit": "mg"
         },
         "manganese": {
@@ -13971,36 +13967,254 @@
           "unit": "mg"
         },
         "selenium_wet": {
-          "value": 24.7,
+          "value": 20,
           "unit": "\u00b5g"
         },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
         "vitamin_a": {
-          "value": 13,
+          "value": 10,
           "unit": "IU"
         },
         "vitamin_d": {
-          "value": 7,
+          "value": 5,
           "unit": "IU"
         },
         "vitamin_e": {
-          "value": 0.27,
+          "value": 0.3,
           "unit": "IU"
         },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
         "vitamin_b6": {
-          "value": 0.6,
+          "value": 0.3,
           "unit": "mg"
         },
         "vitamin_b12": {
-          "value": 0.3,
+          "value": 0.2,
+          "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
           "unit": "\u00b5g"
         },
         "choline": {
-          "value": 65,
+          "value": 60,
           "unit": "mg"
+        },
+        "arginine": {
+          "value": 1.788,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.596,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 1.192,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 2.086,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 2.384,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.894,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.298,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 1.192,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.894,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 1.192,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.298,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 1.49,
+          "unit": "g"
         }
       }
     },
-    "rice_white_cooked": {
+    "egg_yolk_cooked_custom": {
+      "name": "Egg yolk, cooked",
+      "basis": "per_100g",
+      "energy_kcal": {
+        "value": 322,
+        "unit": "kcal"
+      },
+      "nutrients": {
+        "protein": {
+          "value": 16,
+          "unit": "g"
+        },
+        "fat": {
+          "value": 5,
+          "unit": "g"
+        },
+        "carbohydrate": {
+          "value": 0,
+          "unit": "g"
+        },
+        "calcium": {
+          "value": 0.01,
+          "unit": "g"
+        },
+        "phosphorus": {
+          "value": 0.2,
+          "unit": "g"
+        },
+        "potassium": {
+          "value": 0.25,
+          "unit": "g"
+        },
+        "sodium": {
+          "value": 0.07,
+          "unit": "g"
+        },
+        "magnesium": {
+          "value": 0.02,
+          "unit": "g"
+        },
+        "copper": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "iron": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "manganese": {
+          "value": 0.02,
+          "unit": "mg"
+        },
+        "selenium_wet": {
+          "value": 20,
+          "unit": "\u00b5g"
+        },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "vitamin_a": {
+          "value": 10,
+          "unit": "IU"
+        },
+        "vitamin_d": {
+          "value": 5,
+          "unit": "IU"
+        },
+        "vitamin_e": {
+          "value": 0.3,
+          "unit": "IU"
+        },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
+        "vitamin_b6": {
+          "value": 0.3,
+          "unit": "mg"
+        },
+        "vitamin_b12": {
+          "value": 0.2,
+          "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
+          "unit": "\u00b5g"
+        },
+        "choline": {
+          "value": 60,
+          "unit": "mg"
+        },
+        "arginine": {
+          "value": 0.96,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.32,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 0.64,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 1.12,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 1.28,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.48,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.16,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 0.64,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.48,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 0.64,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.16,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 0.8,
+          "unit": "g"
+        }
+      }
+    },
+    "rice_white_cooked_custom": {
       "name": "Rice, white, cooked",
       "basis": "per_100g",
       "energy_kcal": {
@@ -14013,11 +14227,11 @@
           "unit": "g"
         },
         "fat": {
-          "value": 0.3,
+          "value": 5,
           "unit": "g"
         },
         "carbohydrate": {
-          "value": 28.2,
+          "value": 0,
           "unit": "g"
         },
         "calcium": {
@@ -14025,44 +14239,132 @@
           "unit": "g"
         },
         "phosphorus": {
-          "value": 0.043,
+          "value": 0.2,
           "unit": "g"
         },
         "potassium": {
-          "value": 0.035,
+          "value": 0.25,
           "unit": "g"
         },
         "sodium": {
-          "value": 0.001,
+          "value": 0.07,
           "unit": "g"
         },
         "magnesium": {
-          "value": 0.012,
+          "value": 0.02,
           "unit": "g"
         },
-        "iron": {
-          "value": 0.2,
-          "unit": "mg"
-        },
-        "zinc": {
-          "value": 0.4,
-          "unit": "mg"
-        },
         "copper": {
-          "value": 0.07,
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "iron": {
+          "value": 1,
           "unit": "mg"
         },
         "manganese": {
-          "value": 0.7,
+          "value": 0.02,
           "unit": "mg"
         },
         "selenium_wet": {
-          "value": 7.5,
+          "value": 20,
           "unit": "\u00b5g"
+        },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "vitamin_a": {
+          "value": 10,
+          "unit": "IU"
+        },
+        "vitamin_d": {
+          "value": 5,
+          "unit": "IU"
+        },
+        "vitamin_e": {
+          "value": 0.3,
+          "unit": "IU"
+        },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
+        "vitamin_b6": {
+          "value": 0.3,
+          "unit": "mg"
+        },
+        "vitamin_b12": {
+          "value": 0.2,
+          "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
+          "unit": "\u00b5g"
+        },
+        "choline": {
+          "value": 60,
+          "unit": "mg"
+        },
+        "arginine": {
+          "value": 0.162,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.054,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 0.108,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 0.189,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 0.216,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.081,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.027,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 0.108,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.081,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 0.108,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.027,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 0.135,
+          "unit": "g"
         }
       }
     },
-    "potato_boiled": {
+    "potato_boiled_custom": {
       "name": "Potato, boiled",
       "basis": "per_100g",
       "energy_kcal": {
@@ -14075,44 +14377,144 @@
           "unit": "g"
         },
         "fat": {
-          "value": 0.1,
+          "value": 5,
           "unit": "g"
         },
         "carbohydrate": {
-          "value": 20.1,
+          "value": 0,
           "unit": "g"
         },
         "calcium": {
-          "value": 0.005,
+          "value": 0.01,
           "unit": "g"
         },
         "phosphorus": {
-          "value": 0.044,
+          "value": 0.2,
           "unit": "g"
         },
         "potassium": {
-          "value": 0.379,
+          "value": 0.25,
           "unit": "g"
         },
         "sodium": {
-          "value": 0.006,
+          "value": 0.07,
           "unit": "g"
         },
         "magnesium": {
-          "value": 0.023,
+          "value": 0.02,
           "unit": "g"
         },
+        "copper": {
+          "value": 0.05,
+          "unit": "mg"
+        },
         "iron": {
-          "value": 0.3,
+          "value": 1,
           "unit": "mg"
         },
         "manganese": {
-          "value": 0.15,
+          "value": 0.02,
           "unit": "mg"
+        },
+        "selenium_wet": {
+          "value": 20,
+          "unit": "\u00b5g"
+        },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "vitamin_a": {
+          "value": 10,
+          "unit": "IU"
+        },
+        "vitamin_d": {
+          "value": 5,
+          "unit": "IU"
+        },
+        "vitamin_e": {
+          "value": 0.3,
+          "unit": "IU"
+        },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
+        "vitamin_b6": {
+          "value": 0.3,
+          "unit": "mg"
+        },
+        "vitamin_b12": {
+          "value": 0.2,
+          "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
+          "unit": "\u00b5g"
+        },
+        "choline": {
+          "value": 60,
+          "unit": "mg"
+        },
+        "arginine": {
+          "value": 0.114,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.038,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 0.076,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 0.133,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 0.152,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.057,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.019,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 0.076,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.057,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 0.076,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.019,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 0.095,
+          "unit": "g"
         }
       }
     },
-    "sweet_potato_boiled": {
+    "sweet_potato_boiled_custom": {
       "name": "Sweet potato, boiled",
       "basis": "per_100g",
       "energy_kcal": {
@@ -14125,60 +14527,144 @@
           "unit": "g"
         },
         "fat": {
-          "value": 0.1,
+          "value": 5,
           "unit": "g"
         },
         "carbohydrate": {
-          "value": 21,
+          "value": 0,
           "unit": "g"
         },
         "calcium": {
-          "value": 0.03,
+          "value": 0.01,
           "unit": "g"
         },
         "phosphorus": {
-          "value": 0.047,
+          "value": 0.2,
           "unit": "g"
         },
         "potassium": {
-          "value": 0.337,
+          "value": 0.25,
           "unit": "g"
         },
         "sodium": {
-          "value": 0.036,
+          "value": 0.07,
           "unit": "g"
         },
         "magnesium": {
-          "value": 0.025,
+          "value": 0.02,
           "unit": "g"
         },
-        "iron": {
-          "value": 0.6,
-          "unit": "mg"
-        },
-        "zinc": {
-          "value": 0.3,
-          "unit": "mg"
-        },
         "copper": {
-          "value": 0.15,
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "iron": {
+          "value": 1,
           "unit": "mg"
         },
         "manganese": {
-          "value": 0.3,
+          "value": 0.02,
           "unit": "mg"
         },
         "selenium_wet": {
-          "value": 709,
+          "value": 20,
           "unit": "\u00b5g"
         },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "vitamin_a": {
+          "value": 10,
+          "unit": "IU"
+        },
         "vitamin_d": {
+          "value": 5,
+          "unit": "IU"
+        },
+        "vitamin_e": {
           "value": 0.3,
           "unit": "IU"
+        },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
+        "vitamin_b6": {
+          "value": 0.3,
+          "unit": "mg"
+        },
+        "vitamin_b12": {
+          "value": 0.2,
+          "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
+          "unit": "\u00b5g"
+        },
+        "choline": {
+          "value": 60,
+          "unit": "mg"
+        },
+        "arginine": {
+          "value": 0.12,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.04,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 0.08,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 0.14,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 0.16,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.06,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.02,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 0.08,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.06,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 0.08,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.02,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 0.1,
+          "unit": "g"
         }
       }
     },
-    "pumpkin_cooked": {
+    "pumpkin_cooked_custom": {
       "name": "Pumpkin, cooked",
       "basis": "per_100g",
       "energy_kcal": {
@@ -14191,36 +14677,144 @@
           "unit": "g"
         },
         "fat": {
-          "value": 0.1,
+          "value": 5,
           "unit": "g"
         },
         "carbohydrate": {
-          "value": 4.9,
+          "value": 0,
           "unit": "g"
         },
         "calcium": {
-          "value": 0.026,
+          "value": 0.01,
           "unit": "g"
         },
         "phosphorus": {
-          "value": 0.044,
+          "value": 0.2,
           "unit": "g"
         },
         "potassium": {
-          "value": 0.23,
+          "value": 0.25,
           "unit": "g"
         },
         "sodium": {
-          "value": 0.001,
+          "value": 0.07,
           "unit": "g"
         },
         "magnesium": {
-          "value": 0.012,
+          "value": 0.02,
+          "unit": "g"
+        },
+        "copper": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "iron": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "manganese": {
+          "value": 0.02,
+          "unit": "mg"
+        },
+        "selenium_wet": {
+          "value": 20,
+          "unit": "\u00b5g"
+        },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "vitamin_a": {
+          "value": 10,
+          "unit": "IU"
+        },
+        "vitamin_d": {
+          "value": 5,
+          "unit": "IU"
+        },
+        "vitamin_e": {
+          "value": 0.3,
+          "unit": "IU"
+        },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
+        "vitamin_b6": {
+          "value": 0.3,
+          "unit": "mg"
+        },
+        "vitamin_b12": {
+          "value": 0.2,
+          "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
+          "unit": "\u00b5g"
+        },
+        "choline": {
+          "value": 60,
+          "unit": "mg"
+        },
+        "arginine": {
+          "value": 0.042,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.014,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 0.028,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 0.049,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 0.056,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.021,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.007,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 0.028,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.021,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 0.028,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.007,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 0.035,
           "unit": "g"
         }
       }
     },
-    "carrot_cooked": {
+    "carrot_cooked_custom": {
       "name": "Carrot, cooked",
       "basis": "per_100g",
       "energy_kcal": {
@@ -14233,36 +14827,144 @@
           "unit": "g"
         },
         "fat": {
-          "value": 0.2,
+          "value": 5,
           "unit": "g"
         },
         "carbohydrate": {
-          "value": 8.2,
+          "value": 0,
           "unit": "g"
         },
         "calcium": {
-          "value": 0.033,
+          "value": 0.01,
           "unit": "g"
         },
         "phosphorus": {
-          "value": 0.03,
+          "value": 0.2,
           "unit": "g"
         },
         "potassium": {
-          "value": 0.235,
+          "value": 0.25,
           "unit": "g"
         },
         "sodium": {
-          "value": 0.058,
+          "value": 0.07,
           "unit": "g"
         },
         "magnesium": {
-          "value": 0.012,
+          "value": 0.02,
+          "unit": "g"
+        },
+        "copper": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "iron": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "manganese": {
+          "value": 0.02,
+          "unit": "mg"
+        },
+        "selenium_wet": {
+          "value": 20,
+          "unit": "\u00b5g"
+        },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "vitamin_a": {
+          "value": 10,
+          "unit": "IU"
+        },
+        "vitamin_d": {
+          "value": 5,
+          "unit": "IU"
+        },
+        "vitamin_e": {
+          "value": 0.3,
+          "unit": "IU"
+        },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
+        "vitamin_b6": {
+          "value": 0.3,
+          "unit": "mg"
+        },
+        "vitamin_b12": {
+          "value": 0.2,
+          "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
+          "unit": "\u00b5g"
+        },
+        "choline": {
+          "value": 60,
+          "unit": "mg"
+        },
+        "arginine": {
+          "value": 0.048,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.016,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 0.032,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 0.056,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 0.064,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.024,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.008,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 0.032,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.024,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 0.032,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.008,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 0.04,
           "unit": "g"
         }
       }
     },
-    "chicken_liver_cooked": {
+    "chicken_liver_cooked_custom": {
       "name": "Chicken liver, cooked",
       "basis": "per_100g",
       "energy_kcal": {
@@ -14275,76 +14977,144 @@
           "unit": "g"
         },
         "fat": {
-          "value": 6.5,
+          "value": 5,
           "unit": "g"
         },
         "carbohydrate": {
-          "value": 1,
+          "value": 0,
           "unit": "g"
         },
         "calcium": {
-          "value": 0.015,
+          "value": 0.01,
           "unit": "g"
         },
         "phosphorus": {
-          "value": 0.405,
+          "value": 0.2,
           "unit": "g"
         },
         "potassium": {
-          "value": 0.313,
+          "value": 0.25,
           "unit": "g"
         },
         "sodium": {
-          "value": 0.071,
+          "value": 0.07,
           "unit": "g"
         },
         "magnesium": {
-          "value": 0.018,
+          "value": 0.02,
           "unit": "g"
         },
-        "iron": {
-          "value": 11.6,
-          "unit": "mg"
-        },
-        "zinc": {
-          "value": 4.0,
-          "unit": "mg"
-        },
         "copper": {
-          "value": 0.496,
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "iron": {
+          "value": 1,
           "unit": "mg"
         },
         "manganese": {
-          "value": 0.3,
+          "value": 0.02,
           "unit": "mg"
         },
         "selenium_wet": {
-          "value": 82.4,
+          "value": 20,
           "unit": "\u00b5g"
         },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
         "vitamin_a": {
-          "value": 3296,
+          "value": 10,
           "unit": "IU"
         },
         "vitamin_d": {
-          "value": 49,
+          "value": 5,
           "unit": "IU"
         },
         "vitamin_e": {
-          "value": 0.7,
+          "value": 0.3,
           "unit": "IU"
         },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
         "vitamin_b6": {
-          "value": 0.9,
+          "value": 0.3,
           "unit": "mg"
         },
         "vitamin_b12": {
-          "value": 16.6,
+          "value": 0.2,
           "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
+          "unit": "\u00b5g"
+        },
+        "choline": {
+          "value": 60,
+          "unit": "mg"
+        },
+        "arginine": {
+          "value": 1.47,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.49,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 0.98,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 1.715,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 1.96,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.735,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.245,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 0.98,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.735,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 0.98,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.245,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 1.225,
+          "unit": "g"
         }
       }
     },
-    "chicken_heart_cooked": {
+    "chicken_heart_cooked_custom": {
       "name": "Chicken heart, cooked",
       "basis": "per_100g",
       "energy_kcal": {
@@ -14357,7 +15127,7 @@
           "unit": "g"
         },
         "fat": {
-          "value": 8,
+          "value": 5,
           "unit": "g"
         },
         "carbohydrate": {
@@ -14365,35 +15135,31 @@
           "unit": "g"
         },
         "calcium": {
-          "value": 0.012,
+          "value": 0.01,
           "unit": "g"
         },
         "phosphorus": {
-          "value": 0.212,
+          "value": 0.2,
           "unit": "g"
         },
         "potassium": {
-          "value": 0.26,
+          "value": 0.25,
           "unit": "g"
         },
         "sodium": {
-          "value": 0.074,
+          "value": 0.07,
           "unit": "g"
         },
         "magnesium": {
-          "value": 0.019,
+          "value": 0.02,
           "unit": "g"
         },
-        "iron": {
-          "value": 6,
-          "unit": "mg"
-        },
-        "zinc": {
-          "value": 2.5,
-          "unit": "mg"
-        },
         "copper": {
-          "value": 0.3,
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "iron": {
+          "value": 1,
           "unit": "mg"
         },
         "manganese": {
@@ -14401,12 +15167,104 @@
           "unit": "mg"
         },
         "selenium_wet": {
-          "value": 39,
+          "value": 20,
           "unit": "\u00b5g"
+        },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "vitamin_a": {
+          "value": 10,
+          "unit": "IU"
+        },
+        "vitamin_d": {
+          "value": 5,
+          "unit": "IU"
+        },
+        "vitamin_e": {
+          "value": 0.3,
+          "unit": "IU"
+        },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
+        "vitamin_b6": {
+          "value": 0.3,
+          "unit": "mg"
+        },
+        "vitamin_b12": {
+          "value": 0.2,
+          "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
+          "unit": "\u00b5g"
+        },
+        "choline": {
+          "value": 60,
+          "unit": "mg"
+        },
+        "arginine": {
+          "value": 1.56,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.52,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 1.04,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 1.82,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 2.08,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.78,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.26,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 1.04,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.78,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 1.04,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.26,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 1.3,
+          "unit": "g"
         }
       }
     },
-    "green_peas_cooked": {
+    "green_peas_cooked_custom": {
       "name": "Green peas, cooked",
       "basis": "per_100g",
       "energy_kcal": {
@@ -14419,52 +15277,144 @@
           "unit": "g"
         },
         "fat": {
-          "value": 0.4,
+          "value": 5,
           "unit": "g"
         },
         "carbohydrate": {
-          "value": 15,
+          "value": 0,
           "unit": "g"
         },
         "calcium": {
-          "value": 0.025,
+          "value": 0.01,
           "unit": "g"
         },
         "phosphorus": {
-          "value": 0.108,
+          "value": 0.2,
           "unit": "g"
         },
         "potassium": {
-          "value": 0.271,
+          "value": 0.25,
           "unit": "g"
         },
         "sodium": {
-          "value": 0.003,
+          "value": 0.07,
           "unit": "g"
         },
         "magnesium": {
-          "value": 0.033,
+          "value": 0.02,
           "unit": "g"
         },
-        "iron": {
-          "value": 1.5,
-          "unit": "mg"
-        },
-        "zinc": {
-          "value": 1.2,
-          "unit": "mg"
-        },
         "copper": {
-          "value": 0.18,
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "iron": {
+          "value": 1,
           "unit": "mg"
         },
         "manganese": {
-          "value": 0.4,
+          "value": 0.02,
           "unit": "mg"
+        },
+        "selenium_wet": {
+          "value": 20,
+          "unit": "\u00b5g"
+        },
+        "zinc": {
+          "value": 1,
+          "unit": "mg"
+        },
+        "vitamin_a": {
+          "value": 10,
+          "unit": "IU"
+        },
+        "vitamin_d": {
+          "value": 5,
+          "unit": "IU"
+        },
+        "vitamin_e": {
+          "value": 0.3,
+          "unit": "IU"
+        },
+        "vitamin_b1": {
+          "value": 0.05,
+          "unit": "mg"
+        },
+        "vitamin_b2": {
+          "value": 0.1,
+          "unit": "mg"
+        },
+        "vitamin_b6": {
+          "value": 0.3,
+          "unit": "mg"
+        },
+        "vitamin_b12": {
+          "value": 0.2,
+          "unit": "\u00b5g"
+        },
+        "vitamin_b3": {
+          "value": 5,
+          "unit": "mg"
+        },
+        "vitamin_b9": {
+          "value": 5,
+          "unit": "\u00b5g"
+        },
+        "choline": {
+          "value": 60,
+          "unit": "mg"
+        },
+        "arginine": {
+          "value": 0.324,
+          "unit": "g"
+        },
+        "histidine": {
+          "value": 0.108,
+          "unit": "g"
+        },
+        "isoleucine": {
+          "value": 0.216,
+          "unit": "g"
+        },
+        "leucine": {
+          "value": 0.378,
+          "unit": "g"
+        },
+        "lysine": {
+          "value": 0.432,
+          "unit": "g"
+        },
+        "methionine": {
+          "value": 0.162,
+          "unit": "g"
+        },
+        "cystine": {
+          "value": 0.054,
+          "unit": "g"
+        },
+        "phenylalanine": {
+          "value": 0.216,
+          "unit": "g"
+        },
+        "tyrosine": {
+          "value": 0.162,
+          "unit": "g"
+        },
+        "threonine": {
+          "value": 0.216,
+          "unit": "g"
+        },
+        "tryptophan": {
+          "value": 0.054,
+          "unit": "g"
+        },
+        "valine": {
+          "value": 0.27,
+          "unit": "g"
         }
       }
     },
-    "sardine_oil": {
+    "sardine_oil_custom": {
       "name": "Sardine oil",
       "basis": "per_100g",
       "energy_kcal": {
@@ -14476,18 +15426,6 @@
           "value": 100,
           "unit": "g"
         },
-        "carbohydrate": {
-          "value": 0,
-          "unit": "g"
-        },
-        "vitamin_a": {
-          "value": 300,
-          "unit": "IU"
-        },
-        "vitamin_d": {
-          "value": 5,
-          "unit": "IU"
-        },
         "epa": {
           "value": 18,
           "unit": "g"
@@ -14495,6 +15433,14 @@
         "dha": {
           "value": 12,
           "unit": "g"
+        },
+        "vitamin_d": {
+          "value": 300,
+          "unit": "IU"
+        },
+        "vitamin_e": {
+          "value": 5,
+          "unit": "IU"
         }
       }
     }
