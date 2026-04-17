@@ -3650,6 +3650,106 @@
       "vitamin_k": { "value": 2.4, "unit": "µg" }
     }
   },
+    ,
+"chicken_cooked_skin_1001": {
+  "name": "Chicken, cooked, meat and skin",
+  "basis": "per_100g",
+  "energy_kcal": { "value": 197, "unit": "kcal" },
+  "nutrients": {
+    "protein": { "value": 29.8, "unit": "g" },
+    "fat": { "value": 7.8, "unit": "g" },
+    "carbohydrate": { "value": 0, "unit": "g" },
+
+    "calcium": { "value": 0.014, "unit": "g" },
+    "phosphorus": { "value": 0.214, "unit": "g" },
+    "potassium": { "value": 0.245, "unit": "g" },
+    "sodium": { "value": 0.071, "unit": "g" },
+    "magnesium": { "value": 0.023, "unit": "g" },
+
+    "iron": { "value": 1.07, "unit": "mg" },
+    "zinc": { "value": 1.02, "unit": "mg" },
+    "copper": { "value": 0.05, "unit": "mg" },
+    "manganese": { "value": 0.02, "unit": "mg" },
+    "selenium_wet": { "value": 24.7, "unit": "µg" },
+
+    "vitamin_a": { "value": 13, "unit": "IU" },
+    "vitamin_d": { "value": 7, "unit": "IU" },
+    "vitamin_e": { "value": 0.27, "unit": "IU" },
+
+    "vitamin_b1": { "value": 0.07, "unit": "mg" },
+    "vitamin_b2": { "value": 0.15, "unit": "mg" },
+    "vitamin_b3": { "value": 13.7, "unit": "mg" },
+    "vitamin_b6": { "value": 0.6, "unit": "mg" },
+    "vitamin_b9": { "value": 4, "unit": "µg" },
+    "vitamin_b12": { "value": 0.3, "unit": "µg" },
+
+    "choline": { "value": 65, "unit": "mg" }
+  }
+},
+
+"rice_white_cooked_1002": {
+  "name": "Rice, white, cooked",
+  "basis": "per_100g",
+  "energy_kcal": { "value": 130, "unit": "kcal" },
+  "nutrients": {
+    "protein": { "value": 2.7, "unit": "g" },
+    "fat": { "value": 0.3, "unit": "g" },
+    "carbohydrate": { "value": 28.2, "unit": "g" },
+
+    "calcium": { "value": 0.01, "unit": "g" },
+    "phosphorus": { "value": 0.043, "unit": "g" },
+    "potassium": { "value": 0.035, "unit": "g" },
+    "sodium": { "value": 0.001, "unit": "g" },
+    "magnesium": { "value": 0.012, "unit": "g" },
+
+    "iron": { "value": 0.2, "unit": "mg" },
+    "zinc": { "value": 0.4, "unit": "mg" },
+    "copper": { "value": 0.07, "unit": "mg" },
+    "manganese": { "value": 0.7, "unit": "mg" },
+    "selenium_wet": { "value": 7.5, "unit": "µg" },
+
+    "vitamin_b1": { "value": 0.02, "unit": "mg" },
+    "vitamin_b2": { "value": 0.01, "unit": "mg" },
+    "vitamin_b6": { "value": 0.1, "unit": "mg" },
+    "vitamin_b9": { "value": 8, "unit": "µg" }
+  }
+},
+
+"potato_boiled_1003": {
+  "name": "Potato, boiled",
+  "basis": "per_100g",
+  "energy_kcal": { "value": 87, "unit": "kcal" },
+  "nutrients": {
+    "protein": { "value": 1.9, "unit": "g" },
+    "fat": { "value": 0.1, "unit": "g" },
+    "carbohydrate": { "value": 20.1, "unit": "g" },
+
+    "calcium": { "value": 0.005, "unit": "g" },
+    "phosphorus": { "value": 0.044, "unit": "g" },
+    "potassium": { "value": 0.379, "unit": "g" },
+    "magnesium": { "value": 0.023, "unit": "g" },
+
+    "iron": { "value": 0.3, "unit": "mg" },
+    "manganese": { "value": 0.15, "unit": "mg" },
+
+    "vitamin_b6": { "value": 0.3, "unit": "mg" }
+  }
+},
+
+"sardine_oil_1004": {
+  "name": "Sardine oil",
+  "basis": "per_100g",
+  "energy_kcal": { "value": 902, "unit": "kcal" },
+  "nutrients": {
+    "fat": { "value": 100, "unit": "g" },
+
+    "epa": { "value": 18, "unit": "g" },
+    "dha": { "value": 12, "unit": "g" },
+
+    "vitamin_d": { "value": 300, "unit": "IU" },
+    "vitamin_e": { "value": 5, "unit": "IU" }
+  }
+}
   "tomato_2462": {
     "name": "Tomato, red, ripe, canned, whole",
     "basis": "per_100g",
